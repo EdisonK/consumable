@@ -3,7 +3,7 @@
 @section('content')
 <div class="col-lg-6 col-md-6 col-md-offset-3 col-lg-offset-3">
     <div class="panel panel-primary">
-        <div class="panel-heading">Companies</div>
+        <div class="panel-heading">Companies <a class="pull-right btn btn-primary btn-sm" href="/companies/create">Create new Company</a></div>
         <div class="panel-body">
 
             <ul class="list-group">
