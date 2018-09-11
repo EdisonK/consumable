@@ -39,7 +39,12 @@ class CompaniesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Company::create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'user_id' => auth()->id()
+            ]);
+        return redirect()->route('companies.index');
     }
 
     /**
