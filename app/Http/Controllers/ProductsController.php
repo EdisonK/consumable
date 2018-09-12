@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Company;
 use Illuminate\Http\Request;
 
 class ProductsController extends Controller
@@ -13,7 +14,8 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        //
+        $company = Company::find(1);
+        return view('products.index',['company' => $company]);
     }
 
     /**

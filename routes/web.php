@@ -31,5 +31,8 @@ Route::resource('roles','RolesController');
 Route::resource('task','TasksController');
 Route::resource('users','UsersController');
 
+//我自己的写法
+Route::resource('products','ProductsController');
+
 
 
