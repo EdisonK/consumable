@@ -51,9 +51,9 @@ class WarehousesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Warehouse $warehouse)
     {
-        //
+        return view('warehouses.show',['warehouse' => $warehouse]);
     }
 
     /**
@@ -62,9 +62,9 @@ class WarehousesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Warehouse $warehouse)
     {
-        //
+        return view('warehouses.edit',['warehouse' => $warehouse]);
     }
 
     /**
@@ -74,9 +74,15 @@ class WarehousesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Warehouse $warehouse)
     {
-        //
+        $warehouse->name = $request->name;
+        $warehouseUpdate = $warehouse->save();
+        if($warehouseUpdate){
+            return redirect()->route('warehouses.show',['warehouse' => $warehouse])
+                ->with('success','仓库更新成功');
+        }
+        return back()->withInput();
     }
 
     /**

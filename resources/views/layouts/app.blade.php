@@ -29,7 +29,7 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Pmanager') }}
+                        {{ config('app.name', '库存管理') }}
                     </a>
                 </div>
 
