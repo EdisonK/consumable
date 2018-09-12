@@ -15,7 +15,7 @@ class CreateWarehousesTable extends Migration
     {
         Schema::create('warehouses', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name')->comment('试剂库名称');
+            $table->string('name')->comment('试剂库名称')->unique();
         });
     }
 

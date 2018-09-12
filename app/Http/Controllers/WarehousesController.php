@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Warehouse;
 use Illuminate\Http\Request;
 
 class WarehousesController extends Controller
@@ -13,7 +14,10 @@ class WarehousesController extends Controller
      */
     public function index()
     {
-        //
+        $warehouses = Warehouse::all();
+
+        return view('warehouses.index', ['warehouses' => $warehouses]);
+
     }
 
     /**
@@ -23,7 +27,8 @@ class WarehousesController extends Controller
      */
     public function create()
     {
-        //
+
+        return view('warehouses.create');
     }
 
     /**
@@ -34,7 +39,10 @@ class WarehousesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Warehouse::create([
+            'name' => $request->name
+        ]);
+        return redirect()->route('warehouses.index');
     }
 
     /**

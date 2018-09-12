@@ -34,5 +34,12 @@ Route::resource('users','UsersController');
 //我自己的写法
 Route::resource('products','ProductsController');
 
+Route::group(['middleware' => ['auth']], function () {
+    Route::resource('warehouses','WarehousesController');
+
+
+
+
+});
 
 
