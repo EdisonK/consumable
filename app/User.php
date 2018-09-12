@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Models\Loss;
+use App\Models\Order;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -63,5 +65,20 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Project::class);
 
+    }
+
+    public function createOrders()
+    {
+        return $this->hasMany(Order::class, 'creator_id', 'id');
+    }
+
+    public function checkOrders()
+    {
+        return $this->hasMany(Order::class, 'checker_id', 'id');
+    }
+
+    public function lossProducts()
+    {
+        return $this->hasMany(Loss::class, 'creator_id', 'id');
     }
 }
