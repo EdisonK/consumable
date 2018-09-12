@@ -25,12 +25,11 @@
     <div class="col-sm-3 col-md-3 col-lg-3 pull-right">
         <div class="sidebar-module">
             <h4>导航</h4>
+            <h5>仓库</h5>
             <ol class="list-unstyled">
-                <li><a href="/warehouses/{{ $warehouse->id }}/edit">编辑</a></li>
-                <li><a href="/classes/create">添加二级分类</a></li>
-                <li><a href="/warehouses">我的仓库</a></li>
+                <li><a href="/warehouses">仓库列表</a></li>
                 <li><a href="/warehouses/create">创建仓库</a></li>
-                <br/>
+                <li><a href="/warehouses/{{ $warehouse->id }}/edit">编辑仓库</a></li>
                 <li>
                     <a href="#"
                        onclick="
@@ -48,6 +47,17 @@
                     </form>
                 </li>
             </ol>
+            <h5>二级分类</h5>
+            <ol class="list-unstyled">
+                <li><a href="/">二级分类列表</a></li>
+                <li><a href="/classes/create">添加二级分类</a></li>
+            </ol>
+            <h5>三级分类</h5>
+            <ol class="list-unstyled">
+                <li><a href="#">三级分类列表</a></li>
+                <li><a href="#">添加三级分类</a></li>
+            </ol>
+
         </div>
     </div>
 @endsection

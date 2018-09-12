@@ -30,10 +30,10 @@
 
         <div class="sidebar-module">
             <h4>导航</h4>
+            <h5>仓库</h5>
             <ol class="list-unstyled">
+                <li><a href="/warehouses">仓库列表</a></li>
                 <li><a href="/warehouses/{{ $warehouse->id }}">查看仓库</a></li>
-                <li><a href="/warehouses">所有仓库</a></li>
-
             </ol>
         </div>
 

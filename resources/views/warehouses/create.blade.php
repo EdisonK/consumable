@@ -30,8 +30,9 @@
 
         <div class="sidebar-module">
             <h4>导航</h4>
+            <h5>仓库</h5>
             <ol class="list-unstyled">
-                <li><a href="/warehouses">我的仓库</a></li>
+                <li><a href="/warehouses">仓库列表</a></li>
 
             </ol>
         </div>
