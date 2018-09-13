@@ -33,7 +33,6 @@
             </ol>
             <h5>二级分类</h5>
             <ol class="list-unstyled">
-                <li><a href="/">二级分类列表</a></li>
                 <li><a href="/classes/create">添加二级分类</a></li>
                 <li><a href="/classes/{{ $class->id }}/edit">编辑二级分类</a></li>
                 <li>

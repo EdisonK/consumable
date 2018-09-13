@@ -16,7 +16,6 @@ class ClassesController extends Controller
      */
     public function index()
     {
-        //
     }
 
     /**
@@ -94,8 +93,12 @@ class ClassesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(ProductClass $class)
     {
-        //
+        if($class->delete()){
+            return redirect()->route('warehouses.show',['warehouse' => $class->warehouse])
+                ->with('success' , '二级分类删除成功');
+        }
+        return back()->withInput()->with('error' , '二级分类删除失败');
     }
 }

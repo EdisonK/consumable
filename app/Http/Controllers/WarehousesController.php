@@ -91,8 +91,15 @@ class WarehousesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Warehouse $warehouse)
     {
-        //
+
+        if($warehouse->delete()){
+
+            return redirect()->route('warehouses.index')
+                ->with('success' , '仓库删除成功');
+        }
+        return back()->withInput()->with('error' , '仓库删除失败');
+
     }
 }

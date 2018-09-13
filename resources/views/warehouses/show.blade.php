@@ -49,7 +49,6 @@
             </ol>
             <h5>二级分类</h5>
             <ol class="list-unstyled">
-                <li><a href="/">二级分类列表</a></li>
                 <li><a href="/classes/create/{{ $warehouse->id }}">添加二级分类</a></li>
             </ol>
             <h5>三级分类</h5>
