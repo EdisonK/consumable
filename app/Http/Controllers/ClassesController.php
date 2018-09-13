@@ -70,9 +70,9 @@ class ClassesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(ProductClass $class)
     {
-        //
+        return view('classes.edit',['class' => $class]);
     }
 
     /**
@@ -82,9 +82,15 @@ class ClassesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, ProductClass $class)
     {
-        //
+        $class->name = $request->name;
+        $classUpdate = $class->save();
+        if($classUpdate){
+            return redirect()->route('classes.show',['class' => $class])
+                ->with('success','二级分类更新成功');
+        }
+        return back()->withInput();
     }
 
     /**
