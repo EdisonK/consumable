@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ProductClass;
+use App\Models\Warehouse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ClassesController extends Controller
 {
@@ -21,9 +24,15 @@ class ClassesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Warehouse $warehouse = null)
     {
-        //
+        $warehouses = null;
+        if(!$warehouse){
+            $warehouses = Warehouse::get();
+        }
+
+        return view('classes.create',['warehouse'=>$warehouse, 'warehouses'=>$warehouses]);
+
     }
 
     /**
@@ -34,7 +43,15 @@ class ClassesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $productClass = ProductClass::create([
+            'name' => $request->name ? $request->name : null,
+            'warehouse_id' => $request->warehouse_id
+        ]);
+        if($productClass){
+            return redirect()->route('classes.show', ['class'=> $productClass])
+                ->with('success' , '二级分类创建成功！');
+        }
+        return back()->withInput()->with('errors', '二级分类创建失败');
     }
 
     /**
@@ -43,9 +60,9 @@ class ClassesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(ProductClass $class)
     {
-        //
+        return view('classes.show',['class' => $class]);
     }
 
     /**

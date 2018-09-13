@@ -10,6 +10,8 @@ class ProductClass extends Model
 
     public $timestamps = false;
 
+    protected $guarded = ['id'];
+
     public function warehouse()
     {
         return $this->belongsTo(Warehouse::class,'warehouse_id', 'id');
