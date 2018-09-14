@@ -15,18 +15,28 @@ class WarehousesController extends Controller
      */
     public function index(Request $request)
     {
+        $perPage = $request->per_page;
         $warehouses = Warehouse::all();
 
-        $products = Product::paginate($request->per_page);
+        $query = Product::query();
+        if($keyword = $request->keyword){
+            $query->where(function($query) use ($keyword){
+                $query->orWhere('name','like',"%$keyword%")
+                    ->orWhere('chinese_name','like',"%$keyword%")
+                    ->orWhere('english_name','like',"%$keyword%")
+                    ->orWhere('cas','like',"%$keyword%");
+            });
+        }
+        $products = $query->paginate($perPage);
 
         $data = [
             'warehouses' => $warehouses,
-            'products' => $products
+            'products' => $products,
+            'keyword' => $keyword ? $keyword : null
         ];
 //        dd($data);
 
         return view('warehouses.index', $data);
-
     }
 
     /**

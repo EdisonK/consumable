@@ -1,7 +1,5 @@
 @extends('layouts.app')
 @section('content')
-    <input type="hidden" id="total_pages" value="{{ $products->count() }}">
-    <input type="hidden" id="current_page" value="{{ $products->currentPage() }}">
 
     <div class="col-sm-3 col-md-3 col-lg-3 pull-left">
         <div class="sidebar-module">
@@ -66,9 +64,9 @@
             </div><!-- /.col-lg-6 -->
             <div class="col-lg-4">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="请输入关键字（名称、cas）">
+                    <input type="text" class="form-control" placeholder="请输入关键字（名称、cas）"value="{{ $keyword }}" id="keyword">
                     <span class="input-group-btn">
-                    <button class="btn btn-default" type="button">搜索</button>
+                    <button class="btn btn-default" type="button" id="search">搜索</button>
                   </span>
                 </div><!-- /input-group -->
             </div><!-- /.col-lg-6 -->
@@ -89,7 +87,7 @@
                         <th>cas号</th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody data-total="{{ $products->lastPage() }}" id="pages" data-current="{{ $products->currentPage() }}">
                     @foreach($products as $product)
                     <tr>
                         <td>
@@ -141,7 +139,7 @@
     <script>
         $(function () {
 
-
+            $('#search').bind('click', search);
             $('#edit').bind('click', showEdit);
             $('.fa-edit').bind('click', showEditModel);
             //仓库相关
@@ -155,22 +153,53 @@
             $('.tree').bind('click', triggerSon);
 
 
-            var totalPages = Number($('#total_pages').val());
-            var currentPage =  Number($('#current_page').val());
-            console.log(totalPages);
+            init();
 
-            $.jqPaginator('#pagination2', {
 
-                totalPages: totalPages,
-                visiblePages: 2,
-                currentPage: currentPage,
-                onPageChange: function (num, type) {
-                    // $('#p2').text(type + '：' + num);
-                }
-            });
 
 
         });
+
+        function init() {
+            var if_firstime = true;
+            var currentPage = $("#pages").data('current');
+            $.jqPaginator('#pagination2', {
+                totalPages: $("#pages").data('total'),
+                visiblePages: 5,
+                currentPage: currentPage,
+                first: '<li class="first"><a href="javascript:void(0);">首页</a></li>',  	// 首页的HTML样式
+                prev: '<li class="prev"><a href="javascript:void(0);">上一页</a></li>',		// 上一页的HTML样式
+                next: '<li class="next"><a href="javascript:void(0);">下一页</a></li>',		// 下一页的HTML样式
+                last: '<li class="last"><a href="javascript:void(0);">末页</a></li>',
+                onPageChange: function (num, type) {
+                    var url = 'warehouses';
+                    var keyword = $('#keyword').val();
+                    console.log(url);
+                    url +=  '?page='+num;
+                    if(keyword){
+                        url +=  '&keyword=' + keyword;
+                    }
+
+                    if(if_firstime){
+                        if_firstime = false;
+                    }else if(!if_firstime){
+                        window.location.href = url;
+                    }
+                }
+            });
+
+        }
+
+
+        function search() {
+            var url = 'warehouses';
+            var keyword = $('#keyword').val();
+            if(keyword){
+                url +=  '?keyword=' + keyword;
+            }
+            window.location.href = url;
+
+        }
         
         function trashWarehouse() {
             var that =  $(this);
