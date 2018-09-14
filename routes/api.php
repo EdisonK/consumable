@@ -19,3 +19,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 Route::post('warehouses/{warehouse}','WarehousesController@update');
+Route::post('warehouses','WarehousesController@store');
+Route::delete('warehouses/{warehouse}','WarehousesController@destroy');

@@ -42,7 +42,7 @@ class WarehousesController extends Controller
         Warehouse::create([
             'name' => $request->name
         ]);
-        return redirect()->route('warehouses.index');
+       return $this->success('添加成功');
     }
 
     /**
@@ -94,11 +94,9 @@ class WarehousesController extends Controller
     {
 
         if($warehouse->delete()){
-
-            return redirect()->route('warehouses.index')
-                ->with('success' , '仓库删除成功');
+            return $this->success('删除成功');
         }
-        return back()->withInput()->with('error' , '仓库删除失败');
+        return $this->fail('删除失败');
 
     }
 }
