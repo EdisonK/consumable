@@ -6,21 +6,21 @@
             <h4>导航
                 <button class="pull-right btn btn-primary btn-xs" id="edit">编辑</button>
             </h4>
-            <ol class="list-unstyled">
+            <ol class="list-unstyled  ancestor">
                 @foreach($warehouses as $warehouse)
                     <li>
-                        <a href="/warehouses">{{ $warehouse->name }}</a>
+                        <a href="jacascript::void(0)" class="tree ancestor">{{ $warehouse->name }}</a>
                         <span class="hidden on-off"><i class="fa fa-edit warehouses-edit" alt="{{ $warehouse->id }}"></i><i class="fa fa-trash warehouses-trash" alt="{{ $warehouse->id }}"></i></span>
-                        <ol style="list-style-type: none;">
+                        <ol class="hidden" style="list-style-type: none;">
                             @foreach($warehouse->classes as $class)
-                                <li alt="{{ $class->id }}" type_class="classes"><a
-                                            href="/warehouses">{{ $class->name }}</a>
+                                <li  alt="{{ $class->id }}" type_class="classes">
+                                    <a href="jacascript::void(0)" class="tree">{{ $class->name }}</a>
                                     <span class="hidden on-off"><i class="fa fa-edit"></i><i
                                                 class="fa fa-trash"></i></span>
-                                    <ol style="list-style-type: none;">
+                                    <ol class="hidden" style="list-style-type: none;">
                                         @foreach($class->categories as $category)
                                             <li alt="{{ $category->id }}" type_class="categories"><a
-                                                        href="/warehouses">{{ $category->name }}</a>
+                                                        href="jacascript::void(0)">{{ $category->name }}</a>
                                                 <span class="hidden on-off"><i class="fa fa-edit"></i><i
                                                             class="fa fa-trash"></i></span>
 
@@ -100,7 +100,20 @@
             $('#warehouse_update').bind('click', updateWarehouseModel);
 
 
+            $('.tree').bind('click', triggerSon);
+
+
         });
+
+        function triggerSon() {
+            $(this).parent('li').siblings('li').find('ol').addClass('hidden');
+            var that = $(this).siblings('ol');
+            if(that.hasClass('hidden')){
+                that.removeClass('hidden');
+            }else{
+                that.addClass('hidden');
+            }
+        }
 
         function showWarehouseModel() {
             var warehouse_id = $(this).attr('alt');
@@ -127,10 +140,7 @@
             });
 
         }
-
-
-
-
+        
         function showEdit() {
             var bool = $('.on-off').hasClass('hidden');
             if (bool) {
