@@ -79,10 +79,9 @@ class WarehousesController extends Controller
         $warehouse->name = $request->name;
         $warehouseUpdate = $warehouse->save();
         if($warehouseUpdate){
-            return redirect()->route('warehouses.show',['warehouse' => $warehouse])
-                ->with('success','仓库更新成功');
+            return $this->successWithData($warehouse->fresh(),'更新成功');
         }
-        return back()->withInput();
+        return $this->fail('更新失败');
     }
 
     /**

@@ -12,6 +12,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <script src="https://use.fontawesome.com/874dbadbd7.js"></script>
 </head>
 <body>
     <div id="app">
@@ -85,5 +86,7 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+{{--    <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>--}}
+    @stack('scripts')
 </body>
 </html>
