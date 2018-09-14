@@ -158,6 +158,14 @@
 
 
 
+
+
+            //敲回车搜索
+            $('#keyword').keyup(function (e) {
+                if(e.keyCode == 13){
+                    search();
+                }
+            });
         });
 
         function init() {
