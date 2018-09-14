@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use App\Models\Warehouse;
 use Illuminate\Http\Request;
 
@@ -12,11 +13,19 @@ class WarehousesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $warehouses = Warehouse::all();
 
-        return view('warehouses.index', ['warehouses' => $warehouses]);
+        $products = Product::paginate($request->per_page);
+
+        $data = [
+            'warehouses' => $warehouses,
+            'products' => $products
+        ];
+//        dd($data);
+
+        return view('warehouses.index', $data);
 
     }
 

@@ -1,9 +1,11 @@
 @extends('layouts.app')
 @section('content')
+    <input type="hidden" id="total_pages" value="{{ $products->count() }}">
+    <input type="hidden" id="current_page" value="{{ $products->currentPage() }}">
 
     <div class="col-sm-3 col-md-3 col-lg-3 pull-left">
         <div class="sidebar-module">
-            <h4>导航
+            <h4>分类
                 <button class="pull-right btn btn-primary btn-xs" id="edit">编辑</button>
             </h4>
             <ol class="list-unstyled  ancestor">
@@ -48,24 +50,70 @@
              Multiple lines will require custom code not provided by Bootstrap. -->
 
         <!-- Jumbotron -->
-        <div class="jumbotron">
-            <h1>lalal</h1>
-            <p><a class="btn btn-lg btn-success" href="#" role="button">Get started today</a></p>
+        <div class="row">
+            <div class="col-lg-8">
+                <!-- Single button -->
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        操作 <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">添加产品</a></li>
+                        <li><a href="#">导出excel</a></li>
+                        <li><a href="#">批量删除</a></li>
+                    </ul>
+                </div>
+            </div><!-- /.col-lg-6 -->
+            <div class="col-lg-4">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="请输入关键字（名称、cas）">
+                    <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">搜索</button>
+                  </span>
+                </div><!-- /input-group -->
+            </div><!-- /.col-lg-6 -->
         </div>
 
         <!-- Example row of columns -->
-        <div class="row" style="background: white; margin: 10px;">
-            @foreach($warehouse->classes as $class)
-                <div class="col-lg-4">
-                    <h2>{{ $class->name }}</h2>
-                    <p><a class="btn btn-primary" href="/classes/{{  $class->id }}" role="button">查看 »</a></p>
-                </div>
-            @endforeach
+        <div class="row" style=" margin: 10px;">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>
+                            <input type="checkbox" aria-label="...">
+                        </th>
+                        <th>名称</th>
+                        <th>中文名</th>
+                        <th>英文名</th>
+                        <th>cas号</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($products as $product)
+                    <tr>
+                        <td>
+                            <input type="checkbox" aria-label="...">
+                        </td>
+                        <td>{{ $product->name }}</td>
+                        <td>{{ $product->chinese_name }}</td>
+                        <td>{{ $product->english_name }}</td>
+                        <td>{{ $product->cas }}</td>
+                    </tr>
+                    @endforeach
+                    </tbody>
+
+
+                </table>
+            </div>
+            <div class="row">
+                <nav aria-label="Page navigation" style="text-align: center">
+                    <ul class="pagination" id="pagination2"></ul>
+                </nav>
+            </div>
 
         </div>
     </div>
-
-
 
 
     <!-- 仓库的Modal -->
@@ -92,6 +140,8 @@
 @push('scripts')
     <script>
         $(function () {
+
+
             $('#edit').bind('click', showEdit);
             $('.fa-edit').bind('click', showEditModel);
             //仓库相关
@@ -103,6 +153,21 @@
 
 
             $('.tree').bind('click', triggerSon);
+
+
+            var totalPages = Number($('#total_pages').val());
+            var currentPage =  Number($('#current_page').val());
+            console.log(totalPages);
+
+            $.jqPaginator('#pagination2', {
+
+                totalPages: totalPages,
+                visiblePages: 2,
+                currentPage: currentPage,
+                onPageChange: function (num, type) {
+                    // $('#p2').text(type + '：' + num);
+                }
+            });
 
 
         });
