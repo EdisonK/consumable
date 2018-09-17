@@ -47,10 +47,9 @@ class ClassesController extends Controller
             'warehouse_id' => $request->warehouse_id
         ]);
         if($productClass){
-            return redirect()->route('classes.show', ['class'=> $productClass])
-                ->with('success' , '二级分类创建成功！');
+            return $this->success('添加成功');
         }
-        return back()->withInput()->with('errors', '二级分类创建失败');
+        return $this->fail('添加失败');
     }
 
     /**
@@ -87,10 +86,9 @@ class ClassesController extends Controller
         $class->name = $request->name;
         $classUpdate = $class->save();
         if($classUpdate){
-            return redirect()->route('classes.show',['class' => $class])
-                ->with('success','二级分类更新成功');
+            return $this->successWithData($class->fresh(),'更新成功');
         }
-        return back()->withInput();
+        return  $this->fail('更新失败');
     }
 
     /**
@@ -102,9 +100,8 @@ class ClassesController extends Controller
     public function destroy(ProductClass $class)
     {
         if($class->delete()){
-            return redirect()->route('warehouses.show',['warehouse' => $class->warehouse])
-                ->with('success' , '二级分类删除成功');
+            return $this->success('删除成功');
         }
-        return back()->withInput()->with('error' , '二级分类删除失败');
+        return $this->fail('删除失败');
     }
 }

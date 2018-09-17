@@ -17,7 +17,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
+//仓库相关
 Route::post('warehouses/{warehouse}','WarehousesController@update');
 Route::post('warehouses','WarehousesController@store');
 Route::delete('warehouses/{warehouse}','WarehousesController@destroy');
+
+//二级分类相关
+Route::post('classes/{class}','ClassesController@update');
+Route::post('classes','ClassesController@store');
+Route::delete('classes/{class}','ClassesController@destroy');

@@ -15,8 +15,8 @@
                             @foreach($warehouse->classes as $class)
                                 <li  alt="{{ $class->id }}" type_class="classes">
                                     <a href="jacascript::void(0)" class="tree">{{ $class->name }}</a>
-                                    <span class="hidden on-off"><i class="fa fa-edit"></i><i
-                                                class="fa fa-trash"></i></span>
+                                    <span class="hidden on-off"><i class="fa fa-edit class-edit"  alt="{{ $class->id }}"></i><i
+                                                class="fa fa-trash class-trash" alt="{{ $class->id }}"></i></span>
                                     <ol class="hidden" style="list-style-type: none;">
                                         @foreach($class->categories as $category)
                                             <li alt="{{ $category->id }}" type_class="categories"><a
@@ -32,7 +32,7 @@
 
                                 </li>
                             @endforeach
-                            <li class="hidden on-off"><a href="jacascript::void(0)">添加二级分类</a><i class="fa fa-plus" aria-hidden="true"></i>
+                            <li class="hidden on-off add_class" id="add_class" walt="{{ $warehouse->id }}"><a href="jacascript::void(0)">添加二级分类</a><i class="fa fa-plus" aria-hidden="true"></i>
                             </li>
                         </ol>
 
@@ -133,6 +133,26 @@
             </div>
         </div>
     </div>
+
+    <!-- 二级分类的Modal -->
+    <div class="modal fade" id="myClassModal" tabindex="-1" role="dialog" aria-labelledby="myClassModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myClassModalLabel">二级分类</h4>
+                </div>
+                <div class="modal-body">
+                    <input class="form-control" placeholder="请填写二级分类名" alt walt id="class_name">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" id="class_save">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('scripts')
@@ -146,8 +166,17 @@
             $('.warehouses-edit').bind('click', showWarehouseModel);
             $('.add_warehouse').bind('click', showWarehouseModel);
             $('#warehouse_save').bind('click', saveWarehouseModel);
-
             $('.warehouse-trash').bind('click', trashWarehouse);
+
+            //二级分类相关
+            $('.class-edit').bind('click', showClassModel);
+            $('.add_class').bind('click', showClassModel);
+            $('#class_save').bind('click', saveClassModel);
+            $('.class-trash').bind('click', trashClass);
+
+
+
+
 
 
             $('.tree').bind('click', triggerSon);
@@ -234,6 +263,33 @@
                 }
             });
         }
+
+        function trashClass() {
+            var that =  $(this);
+            var class_id = that.attr('alt');
+            swal({
+                title: "确认删除该二级分类么?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then(function (value) {
+                if(value){
+                    var url = "api/classes/"+class_id;
+                    $.ajax({
+                        url: url,
+                        type: 'DELETE',
+                        success: function(result) {
+                            if(result.code == 0){
+                                that.parent('span').parent('li').remove();
+                            }else{
+                                alert('删除失败');
+                            }
+                        }
+                    });
+                }
+            });
+
+        }
         
 
         function triggerSon() {
@@ -261,6 +317,26 @@
                 $("#warehouse_name").attr('alt',warehouse_id);
                 $(this).parent('span').prev().addClass('update');
                 $("#warehouse_save").removeClass('add_warehouse');
+            }
+        }
+        
+        function showClassModel() {
+            if($(this).hasClass('add_class')){
+                var warehouse_id = $(this).attr('walt');
+                //添加二级分类
+                $('#myClassModal').modal('show');
+                $("#class_name").attr('walt', warehouse_id);
+                $("#class_name").val('');
+                $("#class_save").addClass('add_class');
+            }else{
+                //修改二级分类
+                var class_id = $(this).attr('alt');
+                var name = $(this).parent('span').prev().text();
+                $('#myClassModal').modal('show');
+                $("#class_name").val(name);
+                $("#class_name").attr('alt',class_id);
+                $(this).parent('span').prev().addClass('update-class');
+                $("#class_save").removeClass('add_class');
             }
         }
 
@@ -296,6 +372,43 @@
 
             }
         }
+
+        function saveClassModel() {
+            if($(this).hasClass('add_class')){
+                //添加二级分类
+                var name = $("#class_name").val();
+                var warehouse_id = $("#class_name").attr('walt');
+                var url = "api/classes";
+
+                $.post(url,{ name: name, warehouse_id: warehouse_id },function(result){
+                    if(result.code == 0){
+                        window.location.reload();
+                    }else{
+                        alert(result.message);
+                    }
+                });
+
+
+            }else{
+                //更新二级分类
+                var name = $("#class_name").val();
+                var class_id = $("#class_name").attr('alt');
+                var url = "api/classes/"+class_id;
+
+                $.post(url,{name:name},function(result){
+                    if(result.code == 0){
+                        $('.update-class').text(result.data.name);
+                        $('#myClassModal').modal('hide');
+                    }else{
+                        alert(result.message);
+                    }
+                });
+
+            }
+
+        }
+
+
 
         function showEdit() {
             var bool = $('.on-off').hasClass('hidden');
