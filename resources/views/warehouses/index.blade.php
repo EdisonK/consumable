@@ -21,12 +21,12 @@
                                         @foreach($class->categories as $category)
                                             <li alt="{{ $category->id }}" type_class="categories"><a
                                                         href="jacascript::void(0)">{{ $category->name }}</a>
-                                                <span class="hidden on-off"><i class="fa fa-edit"></i><i
-                                                            class="fa fa-trash"></i></span>
+                                                <span class="hidden on-off"><i class="fa fa-edit category-edit" alt="{{ $category->id }}"></i><i
+                                                            class="fa fa-trash category-trash" alt="{{ $category->id }}"></i></span>
 
                                             </li>
                                         @endforeach
-                                        <li class="hidden on-off"><a href="jacascript::void(0)">添加三级分类</a><i class="fa fa-plus"
+                                        <li class="hidden on-off add_category" id="add_category" calt="{{ $class->id }}"><a href="jacascript::void(0)">添加三级分类</a><i class="fa fa-plus"
                                                                                           aria-hidden="true"></i></li>
                                     </ol>
 
@@ -153,6 +153,26 @@
             </div>
         </div>
     </div>
+
+    <!-- 三级分类的Modal -->
+    <div class="modal fade" id="myCategoryModal" tabindex="-1" role="dialog" aria-labelledby="myCategoryModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myCategoryModalLabel">三级分类</h4>
+                </div>
+                <div class="modal-body">
+                    <input class="form-control" placeholder="请填写三级分类名" alt calt id="category_name">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" id="category_save">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('scripts')
@@ -173,6 +193,12 @@
             $('.add_class').bind('click', showClassModel);
             $('#class_save').bind('click', saveClassModel);
             $('.class-trash').bind('click', trashClass);
+
+            //三级分类相关
+            $('.category-edit').bind('click', showCategoryModel);
+            $('.add_category').bind('click', showCategoryModel);
+            $('#category_save').bind('click', saveCategoryModel);
+            $('.category-trash').bind('click', trashCategory);
 
 
 
@@ -288,9 +314,33 @@
                     });
                 }
             });
-
         }
-        
+
+        function trashCategory() {
+            var that =  $(this);
+            var category_id = that.attr('alt');
+            swal({
+                title: "确认删除该三级分类么?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then(function (value) {
+                if(value){
+                    var url = "api/categories/"+category_id;
+                    $.ajax({
+                        url: url,
+                        type: 'DELETE',
+                        success: function(result) {
+                            if(result.code == 0){
+                                that.parent('span').parent('li').remove();
+                            }else{
+                                alert('删除失败');
+                            }
+                        }
+                    });
+                }
+            });
+        }
 
         function triggerSon() {
             $(this).parent('li').siblings('li').find('ol').addClass('hidden');
@@ -338,6 +388,27 @@
                 $(this).parent('span').prev().addClass('update-class');
                 $("#class_save").removeClass('add_class');
             }
+        }
+        
+        function showCategoryModel() {
+            if($(this).hasClass('add_category')){
+                var class_id = $(this).attr('calt');
+                //添加三级分类
+                $('#myCategoryModal').modal('show');
+                $("#category_name").attr('calt', class_id);
+                $("#category_name").val('');
+                $("#category_save").addClass('add_category');
+            }else{
+                //修改三级分类
+                var category_id = $(this).attr('alt');
+                var name = $(this).parent('span').prev().text();
+                $('#myCategoryModal').modal('show');
+                $("#category_name").val(name);
+                $("#category_name").attr('alt',category_id);
+                $(this).parent('span').prev().addClass('update-category');
+                $("#category_save").removeClass('add_category');
+            }
+            
         }
 
         function saveWarehouseModel() {
@@ -399,6 +470,41 @@
                     if(result.code == 0){
                         $('.update-class').text(result.data.name);
                         $('#myClassModal').modal('hide');
+                    }else{
+                        alert(result.message);
+                    }
+                });
+
+            }
+
+        }
+
+        function saveCategoryModel() {
+            if($(this).hasClass('add_category')){
+                //添加三级分类
+                var name = $("#category_name").val();
+                var class_id = $("#category_name").attr('calt');
+                var url = "api/categories";
+
+                $.post(url,{ name: name, class_id: class_id },function(result){
+                    if(result.code == 0){
+                        window.location.reload();
+                    }else{
+                        alert(result.message);
+                    }
+                });
+
+
+            }else{
+                //更新三级分类
+                var name = $("#category_name").val();
+                var category_id = $("#category_name").attr('alt');
+                var url = "api/categories/"+category_id;
+
+                $.post(url,{name:name},function(result){
+                    if(result.code == 0){
+                        $('.update-category').text(result.data.name);
+                        $('#myCategoryModal').modal('hide');
                     }else{
                         alert(result.message);
                     }

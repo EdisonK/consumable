@@ -10,6 +10,8 @@ class Category extends Model
 
     public $timestamps = false;
 
+    protected $guarded = ['id'];
+
     public function productClass()
     {
         return $this->belongsTo(ProductClass::class,'class_id', 'id');

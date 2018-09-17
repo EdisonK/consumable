@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class CategoriesController extends Controller
@@ -34,7 +35,14 @@ class CategoriesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $category = Category::create([
+            'name' => $request->name ? $request->name : null,
+            'class_id' => $request->class_id
+        ]);
+        if($category){
+            return $this->success('添加成功');
+        }
+        return $this->fail('添加失败');
     }
 
     /**
@@ -66,9 +74,14 @@ class CategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,Category $category)
     {
-        //
+        $category->name = $request->name;
+        $categoryUpdate = $category->save();
+        if($categoryUpdate){
+            return $this->successWithData($category->fresh(),'更新成功');
+        }
+        return  $this->fail('更新失败');
     }
 
     /**
@@ -77,8 +90,11 @@ class CategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Category $category)
     {
-        //
+        if($category->delete()){
+            return $this->success('删除成功');
+        }
+        return $this->fail('删除失败');
     }
 }

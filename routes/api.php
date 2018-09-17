@@ -26,3 +26,8 @@ Route::delete('warehouses/{warehouse}','WarehousesController@destroy');
 Route::post('classes/{class}','ClassesController@update');
 Route::post('classes','ClassesController@store');
 Route::delete('classes/{class}','ClassesController@destroy');
+
+//三级分类相关
+Route::post('categories/{category}','CategoriesController@update');
+Route::post('categories','CategoriesController@store');
+Route::delete('categories/{category}','CategoriesController@destroy');
