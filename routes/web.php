@@ -37,9 +37,22 @@ Route::resource('products','ProductsController');
 Route::group(['middleware' => ['auth']], function () {
 
     Route::get('classes/create/{warehouse?}', 'ClassesController@create');
-    Route::resource('warehouses','WarehousesController');
+//    Route::resource('warehouses','WarehousesController');
     Route::resource('classes','ClassesController');
-    Route::resource('products','ProductsController');
+//    Route::resource('products','ProductsController');
+
+
+    Route::prefix('admin')->group(function () {
+        Route::namespace('Admin')->group(function () {
+            Route::resource('warehouses','WarehousesController');
+            Route::resource('products','ProductsController');
+
+
+
+
+        });
+
+    });
 
 
 

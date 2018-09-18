@@ -93,7 +93,7 @@
                         <td>
                             <input type="checkbox" aria-label="...">
                         </td>
-                        <td>{{ $product->name }}</td>
+                        <td><a href="admin/products/{{ $product }}">{{ $product->name }}</a></td>
                         <td>{{ $product->chinese_name }}</td>
                         <td>{{ $product->english_name }}</td>
                         <td>{{ $product->cas }}</td>
@@ -274,7 +274,7 @@
                 dangerMode: true,
             }).then(function (value) {
                 if(value){
-                    var url = "api/warehouses/"+warehouse_id;
+                    var url = "/api/warehouses/"+warehouse_id;
                     $.ajax({
                         url: url,
                         type: 'DELETE',
@@ -300,7 +300,7 @@
                 dangerMode: true,
             }).then(function (value) {
                 if(value){
-                    var url = "api/classes/"+class_id;
+                    var url = "/api/classes/"+class_id;
                     $.ajax({
                         url: url,
                         type: 'DELETE',
@@ -326,7 +326,7 @@
                 dangerMode: true,
             }).then(function (value) {
                 if(value){
-                    var url = "api/categories/"+category_id;
+                    var url = "/api/categories/"+category_id;
                     $.ajax({
                         url: url,
                         type: 'DELETE',
@@ -415,7 +415,7 @@
             if($(this).hasClass('add_warehouse')){
             //添加仓库
                 var name = $("#warehouse_name").val();
-                var url = "api/warehouses";
+                var url = "/api/warehouses";
 
                 $.post(url,{name:name},function(result){
                     if(result.code == 0){
@@ -430,7 +430,7 @@
                 //更新仓库
                 var name = $("#warehouse_name").val();
                 var warehouse_id = $("#warehouse_name").attr('alt');
-                var url = "api/warehouses/"+warehouse_id;
+                var url = "/api/warehouses/"+warehouse_id;
 
                 $.post(url,{name:name},function(result){
                     if(result.code == 0){
@@ -449,7 +449,7 @@
                 //添加二级分类
                 var name = $("#class_name").val();
                 var warehouse_id = $("#class_name").attr('walt');
-                var url = "api/classes";
+                var url = "/api/classes";
 
                 $.post(url,{ name: name, warehouse_id: warehouse_id },function(result){
                     if(result.code == 0){
@@ -464,7 +464,7 @@
                 //更新二级分类
                 var name = $("#class_name").val();
                 var class_id = $("#class_name").attr('alt');
-                var url = "api/classes/"+class_id;
+                var url = "/api/classes/"+class_id;
 
                 $.post(url,{name:name},function(result){
                     if(result.code == 0){
@@ -484,7 +484,7 @@
                 //添加三级分类
                 var name = $("#category_name").val();
                 var class_id = $("#category_name").attr('calt');
-                var url = "api/categories";
+                var url = "/api/categories";
 
                 $.post(url,{ name: name, class_id: class_id },function(result){
                     if(result.code == 0){
@@ -499,7 +499,7 @@
                 //更新三级分类
                 var name = $("#category_name").val();
                 var category_id = $("#category_name").attr('alt');
-                var url = "api/categories/"+category_id;
+                var url = "/api/categories/"+category_id;
 
                 $.post(url,{name:name},function(result){
                     if(result.code == 0){
