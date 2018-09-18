@@ -37,7 +37,7 @@ class WarehousesController extends Controller
         ];
 //        dd($data);
 
-        return view('warehouses.index', $data);
+        return view('admin.warehouses.index', $data);
     }
 
     /**
