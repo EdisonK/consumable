@@ -39,6 +39,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('classes/create/{warehouse?}', 'ClassesController@create');
     Route::resource('warehouses','WarehousesController');
     Route::resource('classes','ClassesController');
+    Route::resource('products','ProductsController');
 
 
 
