@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -15,6 +16,7 @@ class ProductsController extends Controller
     public function index()
     {
 
+        return view('admin.prodocts.index', []);
     }
 
     /**
@@ -44,9 +46,9 @@ class ProductsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Product $product)
     {
-        //
+        return view('admin.products.show', ['product' => $product]);
     }
 
     /**

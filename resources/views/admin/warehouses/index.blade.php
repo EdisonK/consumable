@@ -92,7 +92,7 @@
                         <td>
                             <input type="checkbox" aria-label="...">
                         </td>
-                        <td><a href="admin/products/{{ $product->id }}">{{ $product->name }}</a></td>
+                        <td><a href="products/{{ $product->id }}">{{ $product->name }}</a></td>
                         <td>{{ $product->chinese_name }}</td>
                         <td>{{ $product->english_name }}</td>
                         <td>{{ $product->cas }}</td>
