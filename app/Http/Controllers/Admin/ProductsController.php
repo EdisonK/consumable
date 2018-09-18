@@ -48,7 +48,13 @@ class ProductsController extends Controller
      */
     public function show(Product $product)
     {
-        return view('admin.products.show', ['product' => $product]);
+        $data = [
+            'product' => $product,
+            'category' => $product->category,
+            'class' =>  $product->category->productClass,
+            'warehouse' =>  $product->category->productClass->warehouse,
+        ];
+        return view('admin.products.show', $data);
     }
 
     /**
@@ -57,9 +63,15 @@ class ProductsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Product $product)
     {
-        //
+        $data = [
+            'product' => $product,
+            'category' => $product->category,
+            'class' =>  $product->category->productClass,
+            'warehouse' =>  $product->category->productClass->warehouse,
+        ];
+        return view('admin.products.edit', $data);
     }
 
     /**

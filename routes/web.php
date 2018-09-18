@@ -43,7 +43,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::namespace('Admin')->group(function () {
             Route::resource('warehouses','WarehousesController');
             Route::get('products/{product}','ProductsController@show');
-            Route::resource('products','ProductsController');
+            Route::get('products/{product}/edit','ProductsController@edit');
+//            Route::resource('products','ProductsController');
 
 
 
