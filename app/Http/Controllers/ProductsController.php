@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Company;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class ProductsController extends Controller
@@ -12,10 +13,25 @@ class ProductsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $company = Company::find(1);
-        return view('products.index',['company' => $company]);
+        $perPage = $request->per_page;
+        $query = Product::query();
+        if($keyword = $request->keyword){
+            $query->where(function($query) use ($keyword){
+                $query->orWhere('name','like',"%$keyword%")
+                    ->orWhere('chinese_name','like',"%$keyword%")
+                    ->orWhere('english_name','like',"%$keyword%")
+                    ->orWhere('cas','like',"%$keyword%");
+            });
+        }
+        $products = $query->paginate($perPage);
+
+        $data = [
+            'products' => $products,
+            'keyword' => $keyword ? $keyword : null
+        ];
+        return view('products.index',$data);
     }
 
     /**
@@ -45,9 +61,15 @@ class ProductsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Product $product)
     {
-        //
+        $data = [
+            'product' => $product,
+            'category' => $product->category,
+            'class' =>  $product->category->productClass,
+            'warehouse' =>  $product->category->productClass->warehouse,
+        ];
+        return view('products.show', $data);
     }
 
     /**

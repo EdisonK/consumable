@@ -32,13 +32,11 @@ Route::resource('task','TasksController');
 Route::resource('users','UsersController');
 
 //我自己的写法
-Route::resource('products','ProductsController');
+
 
 Route::group(['middleware' => ['auth']], function () {
-
-    Route::get('classes/create/{warehouse?}', 'ClassesController@create');
-
-
+    Route::resource('products','ProductsController');
+    
     Route::prefix('admin')->group(function () {
         Route::namespace('Admin')->group(function () {
             Route::resource('warehouses','WarehousesController');

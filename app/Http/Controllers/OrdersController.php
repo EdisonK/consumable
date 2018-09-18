@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use Illuminate\Http\Request;
 
 class OrdersController extends Controller
@@ -34,7 +35,18 @@ class OrdersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd(auth()->id());
+        $this->validate($request,[
+            'count' => 'required|integer|min:1',
+            'product_id' => 'required|integer|exists:products,id',
+        ]);
+        Order::create([
+            'product_id' => $request->product_id,
+            'count' => $request->count,
+            'note' => $request->note,
+            'creator_id' => auth()->id()
+        ]);
+        return $this->success('添加成功');
     }
 
     /**
