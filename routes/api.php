@@ -17,7 +17,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::group(['middleware' => ['auth:api']], function () {
+Route::group(['middleware' => ['auth']], function () {
     //后面要加权限必须登陆的才行
     Route::post('orders','OrdersController@store');
 
