@@ -36,7 +36,7 @@ Route::resource('users','UsersController');
 
 Route::group(['middleware' => ['auth']], function () {
     Route::resource('products','ProductsController');
-    
+
     Route::prefix('admin')->group(function () {
         Route::namespace('Admin')->group(function () {
             Route::resource('warehouses','WarehousesController');

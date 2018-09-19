@@ -72,6 +72,7 @@
     </div>
 
 
+
 @endsection
 
 @push('scripts')
@@ -86,6 +87,7 @@
             $('#myOrderModal').modal('show');
             var productId = $(this).attr('alt');
             $('#order_save').attr('alt',productId);
+            console.log('{{ csrf_token() }}');
         }
 
         function saveOrderModel() {
@@ -96,13 +98,32 @@
 
             var url = "/api/orders";
 
-            $.post(url,{ count : count, product_id : product_id, note: note},function(result){
-                if(result.code == 0){
-                    window.location.reload();
-                }else{
-                    alert(result.message);
-                }
-            });
+
+
+            {{--$.ajax({--}}
+                {{--type: 'post',--}}
+                {{--url: url,--}}
+                {{--data: { count : count, product_id : product_id, note: note},--}}
+                {{--beforeSend: function (request) {--}}
+                    {{--request.setRequestHeader("X-CSRF-TOKEN", '{{ csrf_token() }}');--}}
+                {{--},--}}
+                {{--success: function (result) { //返回json结果--}}
+                    {{--if(result.code == 0){--}}
+                        {{--window.location.reload();--}}
+                    {{--}else{--}}
+                        {{--alert(result.message);--}}
+                    {{--}--}}
+                {{--}--}}
+            {{--});--}}
+
+
+             $.post(url,{ count : count, product_id : product_id, note: note},function(result){
+                 if(result.code == 0){
+                     window.location.reload();
+                 }else{
+                     alert(result.message);
+                 }
+             });
 
         }
 

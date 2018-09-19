@@ -88,6 +88,21 @@
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/jqPaginator.js') }}"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        $(function () {
+            init();
+        });
+        
+        function init() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+
+            });
+        }
+
+    </script>
     @stack('scripts')
 </body>
 </html>
