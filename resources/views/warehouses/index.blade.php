@@ -415,7 +415,7 @@
             if($(this).hasClass('add_warehouse')){
             //添加仓库
                 var name = $("#warehouse_name").val();
-                var url = "/api/warehouses";
+                var url = "/admin/warehouses";
 
                 $.post(url,{name:name},function(result){
                     if(result.code == 0){
@@ -430,7 +430,7 @@
                 //更新仓库
                 var name = $("#warehouse_name").val();
                 var warehouse_id = $("#warehouse_name").attr('alt');
-                var url = "/api/warehouses/"+warehouse_id;
+                var url = "/admin/warehouses/"+warehouse_id;
 
                 $.post(url,{name:name},function(result){
                     if(result.code == 0){

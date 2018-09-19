@@ -35,7 +35,6 @@ class OrdersController extends Controller
      */
     public function store(Request $request)
     {
-        dd(auth()->id());
         $this->validate($request,[
             'count' => 'required|integer|min:1',
             'product_id' => 'required|integer|exists:products,id',
