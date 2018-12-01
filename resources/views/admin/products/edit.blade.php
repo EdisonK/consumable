@@ -37,9 +37,9 @@
                 </div>
             </div>
             <div class="form-group col-md-6">
-                <label class="col-md-4 control-label" for="brand_name">品牌：</label>
+                <label class="col-md-4 control-label" for="brand_id">品牌：</label>
                 <div class="col-md-8">
-                    <input type="text" class="form-control" id="brand_name" value="{{ $product->brand->name }}">
+                    <input type="text" class="form-control" id="brand_id" alt="{{ $product->brand_id }}" value="{{ $product->brand->name }}">
                 </div>
             </div>
 
@@ -66,7 +66,7 @@
                 <label class="col-md-4 control-label" for="warehouse_name">仓库：</label>
                 <div class="col-md-8">
                     <select class="form-control" id="warehouse_name" >
-                        <option value="0">请选择</option>
+                        <option value="">请选择</option>
                         @foreach ($warehouses as $val)
                             <option @if ($warehouse->id == $val->id) selected @endif value="{{ $val->id }}">{{ $val->name }}</option>
                         @endforeach
@@ -78,7 +78,7 @@
                 <label class="col-md-4 control-label" for="class_name">二级分类：</label>
                 <div class="col-md-8">
                     <select class="form-control" id="class_name" >
-                        <option value="0">请选择</option>
+                        <option value="">请选择</option>
                         @foreach ($classes as $val)
                             <option @if ($class->id == $val->id) selected @endif value="{{ $val->id }}">{{ $val->name }}</option>
                         @endforeach
@@ -90,7 +90,7 @@
                 <label class="col-md-4 control-label" for="category_name">三级分类：</label>
                 <div class="col-md-8">
                     <select class="form-control" id="category_name" >
-                        <option value="0">请选择</option>
+                        <option value="">请选择</option>
                         @foreach ($categories as $val)
                             <option @if ($category->id == $val->id) selected @endif value="{{ $val->id }}">{{ $val->name }}</option>
                         @endforeach
@@ -99,22 +99,22 @@
             </div>
 
             <div class="form-group col-md-12" style="margin-left: -20px;">
-                <label class="col-md-2 control-label" for="company-content">简介：</label>
+                <label class="col-md-2 control-label" for="description">简介：</label>
                 <div class="col-md-10">
                     <textarea placeholder="请输入产品简介"
                               style="resize: vertical"
-                              id="company-content"
+                              id="description"
                               name="description"
                               rows="5" spellcheck="false"
-                              class="form-control  text-left">
+                              class="form-control  text-left">{{ $product->description }}
                            </textarea>
                 </div>
             </div>
             <div class="form-group col-md-12">
-                <input type="submit" class="btn btn-primary pull-right" style="margin-right: 20px;"
+                <input type="submit" class="btn btn-primary pull-right" id="save" style="margin-right: 20px;" alt="{{ $product->id }}" onclick="return false"
                            value="保存"/>
-                <input type="submit" class="btn btn-danger pull-right" style="margin-right: 20px;"
-                       value="取消"/>
+                <input type="submit" class="btn btn-danger pull-right" id="cancel" alt="{{ $product->id }}" style="margin-right: 20px;"
+                       value="取消" onclick="return false"/>
             </div>
         </form>
 
@@ -235,7 +235,64 @@
         $(function () {
             $('#warehouse_name').on('change',changeClassAndCategory);
             $('#class_name').on('change',changeCategory);
+            $('#category_name').on('change',changeClass);
+
+            $('#save').bind('click',saveProduct);
+            $('#cancel').bind('click',cancel);
+
+
         })
+
+        function cancel() {
+            var product_id = $(this).attr('alt');
+            window.location.href = '/admin/products/'+product_id;
+        }
+
+        function saveProduct() {
+            var name = $('#name').val();
+            var chinese_name = $('#chinese_name').val();
+            var english_name = $('#english_name').val();
+            var cas = $('#cas').val();
+            var molecular_formula = $('#molecular_formula').val();
+            var brand_id = $('#brand_id').attr('alt');
+            var price = $('#price').val();
+            var unit = $('#unit').val();
+            var model_type = $('#model_type').val();
+            var category_id = $('#category_name').val();
+            var description = $('#description').val();
+            var product_id = $('#save').attr('alt');
+            var url = '/admin/products/'+product_id+'/update';
+            if(!category_id){
+                alert('第三类别的id不能为空');
+                return;
+            }
+            var data = {
+                'name' : name,
+                'chinese_name' : chinese_name,
+                'english_name' : english_name,
+                'cas' : cas,
+                'molecular_formula' : molecular_formula,
+                'brand_id' : brand_id,
+                'price' : price,
+                'unit' : unit,
+                'model_type' : model_type,
+                'category_id' : category_id,
+                'description' : description
+            };
+
+            $.post(url,data,function (result) {
+                if(result.code == 0){
+                    window.location.href = '/admin/products/'+product_id;
+                }else{
+                    alert('保存失败');
+                }
+            });
+        }
+        
+        function changeClass() {
+            classesByCategory()
+        }
+
         function changeCategory() {
             categoriesByClass()
         }
@@ -244,15 +301,34 @@
             classes();
             categories();
         }
+        
+        function classesByCategory() {
+            var category_id = $("#category_name").val();
+            if(!category_id){
+               return;
+            }
+            var url = "/admin/classes/category/"+category_id;
+            $.get(url,function(result){
+                if(result.code == 0){
+                    var classe = result.data.classe;
+                    $('#class_name option[value='+classe.id+"]").attr("selected",true);
+                }else{
+                    console.log('返回值接口错误');
+                }
+            });
+        }
 
         function classes() {
             $('#class_name option').remove();
+            var class_option = " <option value=''>请选择</option>";
             var warehous_id = $("#warehouse_name").val();
+            if(!warehous_id){
+                $('#class_name').append(class_option);
+            }
             var url = "/admin/classes/"+warehous_id;
             $.get(url,function(result){
                 if(result.code == 0){
                     var classes = result.data.classes;
-                    var class_option = " <option value='0'>请选择</option>";
                     $.each(classes,function (i,n) {
                         var xxx;
                         xxx = "<option value='"+n.id+"'>"+n.name+"</option>";
@@ -267,12 +343,16 @@
 
         function categories() {
             $('#category_name option').remove();
+            var category_option = " <option value=''>请选择</option>";
             var warehous_id = $("#warehouse_name").val();
+            if(!warehous_id){
+                $('#category_name').append(category_option);
+            }
             var url = "/admin/categories/"+warehous_id;
             $.get(url,function(result){
                 if(result.code == 0){
                     var categories = result.data.categories;
-                    var category_option = " <option value='0'>请选择</option>";
+
                     $.each(categories,function (i,n) {
                         var xxx;
                         xxx = "<option value='"+n.id+"'>"+n.name+"</option>";
@@ -287,12 +367,16 @@
 
         function categoriesByClass() {
             $('#category_name option').remove();
+            var category_option = " <option value=''>请选择</option>";
             var class_id = $("#class_name").val();
+            if(!class_id){
+                $('#category_name').append(category_option);
+            }
             var url = "/admin/categories/class/"+class_id;
             $.get(url,function(result){
                 if(result.code == 0){
                     var categories = result.data.categories;
-                    var category_option = " <option value='0'>请选择</option>";
+
                     $.each(categories,function (i,n) {
                         var xxx;
                         xxx = "<option value='"+n.id+"'>"+n.name+"</option>";
@@ -304,10 +388,5 @@
                 }
             });
         }
-
-
-
-
-
     </script>
 @endpush

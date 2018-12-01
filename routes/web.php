@@ -45,6 +45,9 @@ Route::group(['middleware' => ['auth']], function () {
             Route::get('warehouses','WarehousesController@index');
             Route::get('products/{product}','ProductsController@show');
             Route::get('products/{product}/edit','ProductsController@edit');
+            Route::post('products/{product}/update','ProductsController@update');
+
+
 //            Route::resource('products','ProductsController');
 
             //仓库相关
@@ -57,6 +60,7 @@ Route::group(['middleware' => ['auth']], function () {
             Route::get('classes/{warehouse}','ClassesController@getClassesByWarehouseId');
             Route::post('classes','ClassesController@store');
             Route::delete('classes/{class}','ClassesController@destroy');
+            Route::get('classes/category/{category}','ClassesController@getClassesByCategoryId');
 
             //三级分类相关
             Route::post('categories/{category}','CategoriesController@update');

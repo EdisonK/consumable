@@ -89,9 +89,30 @@ class ProductsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,Product $product)
     {
-        //
+        $this->validate($request,[
+            'name' => 'required|string',
+            'category_id' => 'required|integer|exists:categories,id'
+        ]);
+        $product->name = $request->name;
+        $product->chinese_name = $request->chinese_name;
+        $product->english_name = $request->english_name;
+        $product->cas = $request->cas;
+        $product->molecular_formula = $request->molecular_formula;
+        $product->brand_id = $request->brand_id;
+        $product->price = $request->price;
+        $product->unit = $request->unit;
+        $product->model_type = $request->model_type;
+        $product->category_id = $request->category_id;
+        $product->unit = $request->unit;
+        $product->description = $request->description;
+        $res = $product->save();
+        if($res){
+            return $this->success('成功');
+        }else{
+            return $this->fail('失败');
+        }
     }
 
     /**

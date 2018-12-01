@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Category;
 use App\Models\ProductClass;
 use App\Models\Warehouse;
 use Illuminate\Http\Request;
@@ -27,6 +28,18 @@ class ClassesController extends Controller
     {
         $data = [
             'classes' =>  $warehouse->classes
+        ];
+        return $this->successWithData($data,'成功');
+    }
+
+    /*
+    * 获取指定三级目录的二级目录
+    * vito
+    * */
+    public function getClassesByCategoryId(Category $category)
+    {
+        $data = [
+            'classe' =>   $category->productClass
         ];
         return $this->successWithData($data,'成功');
     }
