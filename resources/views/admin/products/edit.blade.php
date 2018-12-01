@@ -63,22 +63,45 @@
                 </div>
             </div>
             <div class="form-group col-md-6">
-                <label class="col-md-4 control-label" for="category_name">种类：</label>
+                <label class="col-md-4 control-label" for="warehouse_name">仓库：</label>
                 <div class="col-md-8">
-                    <input type="text" class="form-control" id="category_name" value="{{ $product->category->name }}">
+                    <select class="form-control" id="warehouse_name" >
+                        <option value="0">请选择</option>
+                        @foreach ($warehouses as $val)
+                            <option @if ($warehouse->id == $val->id) selected @endif value="{{ $val->id }}">{{ $val->name }}</option>
+                        @endforeach
+
+                    </select>
+                </div>
+            </div>
+            <div class="form-group col-md-6">
+                <label class="col-md-4 control-label" for="class_name">二级分类：</label>
+                <div class="col-md-8">
+                    <select class="form-control" id="class_name" >
+                        <option value="0">请选择</option>
+                        @foreach ($classes as $val)
+                            <option @if ($class->id == $val->id) selected @endif value="{{ $val->id }}">{{ $val->name }}</option>
+                        @endforeach
+
+                    </select>
+                </div>
+            </div>
+            <div class="form-group col-md-6">
+                <label class="col-md-4 control-label" for="category_name">三级分类：</label>
+                <div class="col-md-8">
+                    <select class="form-control" id="category_name" >
+                        <option value="0">请选择</option>
+                        @foreach ($categories as $val)
+                            <option @if ($category->id == $val->id) selected @endif value="{{ $val->id }}">{{ $val->name }}</option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
 
-            <div class="form-group  col-md-6">
-                <label class="col-md-4 control-label" for="model_type">型号：</label>
-                <div class="col-md-8">
-                    <input type="text" class="form-control" id="model_type" value="{{ $product->model_type }}">
-                </div>
-            </div>
             <div class="form-group col-md-12" style="margin-left: -20px;">
                 <label class="col-md-2 control-label" for="company-content">简介：</label>
                 <div class="col-md-10">
-                    <textarea placeholder="Enter description"
+                    <textarea placeholder="请输入产品简介"
                               style="resize: vertical"
                               id="company-content"
                               name="description"
@@ -87,12 +110,14 @@
                            </textarea>
                 </div>
             </div>
-
-
-
-
-
+            <div class="form-group col-md-12">
+                <input type="submit" class="btn btn-primary pull-right" style="margin-right: 20px;"
+                           value="保存"/>
+                <input type="submit" class="btn btn-danger pull-right" style="margin-right: 20px;"
+                       value="取消"/>
+            </div>
         </form>
+
 
         {{--<form class="form-horizontal" role="form">--}}
             {{--<div class="form-group col-md-4">--}}
@@ -198,8 +223,91 @@
 
             {{--</li>--}}
             {{--</ol>--}}
+
         </div>
 
     </div>
 
 @endsection
+
+@push('scripts')
+    <script>
+        $(function () {
+            $('#warehouse_name').on('change',changeClassAndCategory);
+            $('#class_name').on('change',changeCategory);
+        })
+        function changeCategory() {
+            categoriesByClass()
+        }
+
+        function changeClassAndCategory() {
+            classes();
+            categories();
+        }
+
+        function classes() {
+            $('#class_name option').remove();
+            var warehous_id = $("#warehouse_name").val();
+            var url = "/admin/classes/"+warehous_id;
+            $.get(url,function(result){
+                if(result.code == 0){
+                    var classes = result.data.classes;
+                    var class_option = " <option value='0'>请选择</option>";
+                    $.each(classes,function (i,n) {
+                        var xxx;
+                        xxx = "<option value='"+n.id+"'>"+n.name+"</option>";
+                        class_option += xxx;
+                    });
+                    $('#class_name').append(class_option);
+                }else{
+                    console.log('返回值接口错误');
+                }
+            });
+        }
+
+        function categories() {
+            $('#category_name option').remove();
+            var warehous_id = $("#warehouse_name").val();
+            var url = "/admin/categories/"+warehous_id;
+            $.get(url,function(result){
+                if(result.code == 0){
+                    var categories = result.data.categories;
+                    var category_option = " <option value='0'>请选择</option>";
+                    $.each(categories,function (i,n) {
+                        var xxx;
+                        xxx = "<option value='"+n.id+"'>"+n.name+"</option>";
+                        category_option += xxx;
+                    });
+                    $('#category_name').append(category_option);
+                }else{
+                    console.log('返回值接口错误');
+                }
+            });
+        }
+
+        function categoriesByClass() {
+            $('#category_name option').remove();
+            var class_id = $("#class_name").val();
+            var url = "/admin/categories/class/"+class_id;
+            $.get(url,function(result){
+                if(result.code == 0){
+                    var categories = result.data.categories;
+                    var category_option = " <option value='0'>请选择</option>";
+                    $.each(categories,function (i,n) {
+                        var xxx;
+                        xxx = "<option value='"+n.id+"'>"+n.name+"</option>";
+                        category_option += xxx;
+                    });
+                    $('#category_name').append(category_option);
+                }else{
+                    console.log('返回值接口错误');
+                }
+            });
+        }
+
+
+
+
+
+    </script>
+@endpush

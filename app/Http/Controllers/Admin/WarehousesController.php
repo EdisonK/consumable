@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Product;
+use App\Models\ProductClass;
 use App\Models\Warehouse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -35,10 +36,9 @@ class WarehousesController extends Controller
             'products' => $products,
             'keyword' => $keyword ? $keyword : null
         ];
-//        dd($data);
-
         return view('admin.warehouses.index', $data);
     }
+
 
     /**
      * Show the form for creating a new resource.

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Category;
+use App\Models\ProductClass;
+use App\Models\Warehouse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -16,6 +18,31 @@ class CategoriesController extends Controller
     public function index()
     {
         //
+    }
+
+    /*
+     * 获取指定仓库的三级类别
+     * vito
+     * */
+    public function getCategoriesByWarehouseId(Warehouse $warehouse)
+    {
+        $data = [
+            'categories' =>  Category::whereIn('class_id',$warehouse->classes->pluck('id'))->get()
+        ];
+        return $this->successWithData($data,'成功');
+    }
+
+    /*
+     * 获取指定二级分类的三级类别
+     * vito
+     * */
+    public function getCategoriesByClassId(ProductClass $class)
+    {
+        $data = [
+            'categories' => $class->categories
+        ];
+        return $this->successWithData($data,'成功');
+
     }
 
     /**

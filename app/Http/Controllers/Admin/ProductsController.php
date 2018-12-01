@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductClass;
+use App\Models\Warehouse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -65,12 +68,17 @@ class ProductsController extends Controller
      */
     public function edit(Product $product)
     {
+        $class = $product->category->productClass;
         $data = [
             'product' => $product,
             'category' => $product->category,
-            'class' =>  $product->category->productClass,
-            'warehouse' =>  $product->category->productClass->warehouse,
+            'class' =>  $class,
+            'warehouse' =>  $class->warehouse,
+            'categories' =>  $class->categories,
+            'classes' =>  $class->warehouse->classes,
+            'warehouses' =>  Warehouse::all()
         ];
+//        dd($product->category->productClass->categories->toArray());
         return view('admin.products.edit', $data);
     }
 

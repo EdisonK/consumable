@@ -54,11 +54,14 @@ Route::group(['middleware' => ['auth']], function () {
 
             //二级分类相关
             Route::post('classes/{class}','ClassesController@update');
+            Route::get('classes/{warehouse}','ClassesController@getClassesByWarehouseId');
             Route::post('classes','ClassesController@store');
             Route::delete('classes/{class}','ClassesController@destroy');
 
             //三级分类相关
             Route::post('categories/{category}','CategoriesController@update');
+            Route::get('categories/{warehouse}','CategoriesController@getCategoriesByWarehouseId');
+            Route::get('categories/class/{class}','CategoriesController@getCategoriesByClassId');
             Route::post('categories','CategoriesController@store');
             Route::delete('categories/{category}','CategoriesController@destroy');
 

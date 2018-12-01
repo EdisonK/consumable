@@ -19,6 +19,18 @@ class ClassesController extends Controller
     {
     }
 
+    /*
+     * 获取指定仓库的类别
+     * vito
+     * */
+    public function getClassesByWarehouseId(Warehouse $warehouse)
+    {
+        $data = [
+            'classes' =>  $warehouse->classes
+        ];
+        return $this->successWithData($data,'成功');
+    }
+
     /**
      * Show the form for creating a new resource.
      *
