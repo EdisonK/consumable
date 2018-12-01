@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductClass;
@@ -76,7 +77,8 @@ class ProductsController extends Controller
             'warehouse' =>  $class->warehouse,
             'categories' =>  $class->categories,
             'classes' =>  $class->warehouse->classes,
-            'warehouses' =>  Warehouse::all()
+            'warehouses' =>  Warehouse::all(),
+            'brands' => Brand::all()
         ];
 //        dd($product->category->productClass->categories->toArray());
         return view('admin.products.edit', $data);

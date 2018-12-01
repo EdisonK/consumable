@@ -39,7 +39,14 @@
             <div class="form-group col-md-6">
                 <label class="col-md-4 control-label" for="brand_id">品牌：</label>
                 <div class="col-md-8">
-                    <input type="text" class="form-control" id="brand_id" alt="{{ $product->brand_id }}" value="{{ $product->brand->name }}">
+                    {{--<input type="text" class="form-control" id="brand_id" alt="{{ $product->brand_id }}" value="{{ $product->brand->name }}">--}}
+                    <select class="form-control" id="brand_id" >
+                        <option value="">请选择</option>
+                        @foreach ($brands as $val)
+                            <option @if ($product->brand_id == $val->id) selected @endif value="{{ $val->id }}">{{ $val->name }}</option>
+                        @endforeach
+
+                    </select>
                 </div>
             </div>
 
@@ -254,7 +261,7 @@
             var english_name = $('#english_name').val();
             var cas = $('#cas').val();
             var molecular_formula = $('#molecular_formula').val();
-            var brand_id = $('#brand_id').attr('alt');
+            var brand_id = $('#brand_id').val();
             var price = $('#price').val();
             var unit = $('#unit').val();
             var model_type = $('#model_type').val();
