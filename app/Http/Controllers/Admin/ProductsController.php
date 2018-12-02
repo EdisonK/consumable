@@ -30,7 +30,11 @@ class ProductsController extends Controller
      */
     public function create()
     {
-        //
+        $data = [
+            'warehouses' =>  Warehouse::all(),
+            'brands' => Brand::all()
+        ];
+        return view('admin.products.create', $data);
     }
 
     /**
@@ -41,7 +45,30 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request,[
+            'name' => 'required|string',
+            'category_id' => 'required|integer|exists:categories,id'
+        ]);
+
+        $para = [
+            'name' => $request->name,
+            'chinese_name' => $request->chinese_name,
+            'english_name' => $request->english_name,
+            'cas' => $request->cas,
+            'molecular_formula' => $request->molecular_formula,
+            'brand_id' => $request->brand_id,
+            'price' => $request->price,
+            'unit' => $request->unit,
+            'model_type' => $request->model_type,
+            'category_id' => $request->category_id,
+            'description' => $request->description
+        ];
+        $res = Product::create($para);
+        if($res){
+            return $this->success('成功');
+        }else{
+            return $this->fail('失败');
+        }
     }
 
     /**
@@ -80,7 +107,6 @@ class ProductsController extends Controller
             'warehouses' =>  Warehouse::all(),
             'brands' => Brand::all()
         ];
-//        dd($product->category->productClass->categories->toArray());
         return view('admin.products.edit', $data);
     }
 
@@ -107,7 +133,6 @@ class ProductsController extends Controller
         $product->unit = $request->unit;
         $product->model_type = $request->model_type;
         $product->category_id = $request->category_id;
-        $product->unit = $request->unit;
         $product->description = $request->description;
         $res = $product->save();
         if($res){

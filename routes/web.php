@@ -43,6 +43,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::prefix('admin')->group(function () {
         Route::namespace('Admin')->group(function () {
             Route::get('warehouses','WarehousesController@index');
+            Route::get('products/create','ProductsController@create');
+            Route::post('products','ProductsController@store');
             Route::get('products/{product}','ProductsController@show');
             Route::get('products/{product}/edit','ProductsController@edit');
             Route::post('products/{product}/update','ProductsController@update');

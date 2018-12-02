@@ -55,7 +55,7 @@
                         操作 <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a href="#">添加产品</a></li>
+                        <li><a href="/admin/products/create">添加产品</a></li>
                         <li><a href="#">导出excel</a></li>
                         <li><a href="#">批量删除</a></li>
                     </ul>
