@@ -40,6 +40,15 @@
     </div>
     <div class="col-sm-3 col-md-3 col-lg-3 pull-right">
         <div class="sidebar-module">
+            <h4>导航</h4>
+            <ol class="list-unstyled">
+                <li><a href="/admin/warehouses">产品管理</a></li>
+                {{--<li><a href="/projects/create">Add Project</a></li>--}}
+                {{--<li><a href="/companies">My Companies</a></li>--}}
+                {{--<li><a href="/companies/create">Create new Company</a></li>--}}
+                {{--<br/>--}}
+                {{--<li><a href="/companies/create">Create new Company</a></li>--}}
+            </ol>
 
         </div>
 
