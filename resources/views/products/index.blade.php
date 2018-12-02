@@ -4,7 +4,7 @@
         <div class="sidebar-module">
             <h4>菜单</h4>
             <ol class="list-unstyled">
-                <li><i class="fa fa-circle"></i><a href="jacascript::void(0)" class="">产品列表</a></li>
+                <li class="active "><a href="jacascript::void(0)" class="">产品列表</a></li>
                 <li><a href="jacascript::void(0)" class="">我的订单</a></li>
                 <li><a href="jacascript::void(0)" class="">我的损耗</a></li>
                 <li><a href="jacascript::void(0)" class="">实验室库存</a></li>
