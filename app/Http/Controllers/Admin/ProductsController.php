@@ -148,8 +148,13 @@ class ProductsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Product $product)
     {
-        //
+        $res = $product->delete();
+        if($res){
+            return $this->success('成功');
+        }else{
+            return $this->fail('失败');
+        }
     }
 }

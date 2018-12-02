@@ -50,15 +50,8 @@
         <div class="row">
             <div class="col-lg-8">
                 <!-- Single button -->
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        操作 <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a href="/admin/products/create">添加产品</a></li>
-                        <li><a href="#">导出excel</a></li>
-                        <li><a href="#">批量删除</a></li>
-                    </ul>
+                <div class="btn-group" role="group" aria-label="...">
+                    <button type="button" class="btn btn-primary" onclick="window.location.href='/admin/products/create'">添加产品</button>
                 </div>
             </div><!-- /.col-lg-6 -->
             <div class="col-lg-4">
@@ -77,30 +70,24 @@
                 <table class="table table-striped">
                     <thead>
                     <tr>
-                        <th>
-                            <input type="checkbox" aria-label="...">
-                        </th>
                         <th>名称</th>
                         <th>中文名</th>
                         <th>英文名</th>
                         <th>cas号</th>
+                        <th>操作</th>
                     </tr>
                     </thead>
                     <tbody data-total="{{ $products->lastPage() }}" id="pages" data-current="{{ $products->currentPage() }}">
                     @foreach($products as $product)
                     <tr>
-                        <td>
-                            <input type="checkbox" aria-label="...">
-                        </td>
                         <td><a href="/admin/products/{{ $product->id }}">{{ $product->name }}</a></td>
                         <td>{{ $product->chinese_name }}</td>
                         <td>{{ $product->english_name }}</td>
                         <td>{{ $product->cas }}</td>
+                        <td><a href="javascript:void(0)" class="delete" alt="{{ $product->id }}" >删除</a></td>
                     </tr>
                     @endforeach
                     </tbody>
-
-
                 </table>
             </div>
             <div class="row">
@@ -199,10 +186,7 @@
             $('#category_save').bind('click', saveCategoryModel);
             $('.category-trash').bind('click', trashCategory);
 
-
-
-
-
+            $('.delete').bind('click',deleteItem);
 
             $('.tree').bind('click', triggerSon);
 
@@ -221,6 +205,35 @@
                 }
             });
         });
+
+        function deleteItem() {
+            var that =  $(this);
+            var product_id = that.attr('alt');
+            if(!product_id){
+                return;
+            }
+            swal({
+                title: "确认删除该药品么?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then(function (value) {
+                if(value){
+                    var url = "/admin/products/"+product_id;
+                    $.ajax({
+                        url: url,
+                        type: 'DELETE',
+                        success: function(result) {
+                            if(result.code == 0){
+                               window.location.reload();
+                            }else{
+                                alert('删除失败');
+                            }
+                        }
+                    });
+                }
+            });
+        }
 
         function init() {
             var if_firstime = true;
