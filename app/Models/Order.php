@@ -26,6 +26,14 @@ class Order extends Model
         return $this->belongsTo(User::class, 'checker_id', 'id');
     }
 
+    public function checkStatus()
+    {
+        return $this->belongsTo(CheckStatus::class, 'check_status_id', 'id');
+    }
 
+    public function confirmer()
+    {
+        return $this->belongsTo(User::class, 'confirm_id', 'id');
+    }
 
 }

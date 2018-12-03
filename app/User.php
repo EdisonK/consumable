@@ -77,6 +77,11 @@ class User extends Authenticatable
         return $this->hasMany(Order::class, 'checker_id', 'id');
     }
 
+    public function confirmOrders()
+    {
+        return $this->hasMany(Order::class, 'confirm_id', 'id');
+    }
+
     public function lossProducts()
     {
         return $this->hasMany(Loss::class, 'creator_id', 'id');
