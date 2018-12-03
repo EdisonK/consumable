@@ -17,6 +17,11 @@ class CreateCheckStatusTable extends Migration
             $table->increments('id');
             $table->string('name');
         });
+
+        $arr = ['通过','拒绝'];
+        foreach ($arr as $key => $val){
+            \App\Models\CheckStatus::create(['name' => $val]);
+        }
     }
 
     /**
