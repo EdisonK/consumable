@@ -92,4 +92,66 @@ class OrdersController extends Controller
     {
         //
     }
+
+    public function myOrders(Request $request)
+    {
+        $this->validate($request,[
+            'per_page' => 'nullable|integer|max:30',
+            'check_status' => 'nullable|string',
+            'keyword' => 'nullable|string'
+        ]);
+        $userId = auth()->id();
+        $perPage = $request->per_page;
+//        $perPage = 1;
+
+        $query =   Order::with(['product','creator','checker','checkStatus','confirmer'])->where('creator_id',$userId);
+        if($keyword = $request->keyword){
+            $query->orWhereHas('product',function ($query) use($keyword){
+                $query->where('name','like',"%$keyword%");
+            })->orWhereHas('creator',function ($query) use($keyword){
+                $query->where('name','like',"%$keyword%");
+            });
+        }
+        if($check_status = $request->check_status){
+            if($check_status == 1){
+                $query->whereNotNull('checked_at');
+            }elseif($check_status == 2){
+                $query->whereNull('checked_at');
+            }
+        }
+        $query->orderBy('id','desc');
+        $orders = $query->paginate($perPage);
+        $orderArr = array_merge($orders->toArray(),[ 'data' => $orders->map(function ($order){
+            return [
+                'id' => $order->id,
+                'product_id' => $order->product_id,
+                'product_name' => $order->product ? $order->product->name : null,
+                'count' => $order->count,
+                'price' => $order->product ? $order->product->price : 0,
+                'unit' => $order->product ? $order->product->unit : null,
+                'total_money' => ($order->product ? $order->product->price : 0) * $order->count,
+                'note' => $order->note,
+                'creator_id' => $order->creator_id,
+                'creator_name' => $order->creator ? $order->creator->name : null,
+                'created_at' => $order->created_at,
+                'checker_id' => $order->checker_id,
+                'checker_name' =>  $order->checker ? $order->checker->name : null,
+                'checked_note' =>  $order->checked_note,
+                'checked_at' =>  $order->checked_at,
+                'check_status_id' =>  $order->check_status_id ,
+                'check_status_name' =>  $order->checkStatus ? $order->checkStatus->name : null ,
+                'confirm_id' => $order->confirm_id,
+                'confirm_name' =>  $order->confirmer ? $order->confirmer->name : null,
+                'confirmed_note' =>  $order->confirmed_note,
+                'confirmed_at' =>  $order->confirmed_at,
+            ];
+        })->toArray()]);
+
+        $data = [
+            'orders' => $orderArr,
+            'checkStatus' => $check_status,
+            'keyword' => $keyword ? $keyword : null
+        ];
+        return view('orders.index',$data);
+    }
 }
