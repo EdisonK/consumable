@@ -38,6 +38,7 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
                         <li class="active"><a href="/products">产品列表</a></li>
+                        <li class=""><a href="#">我的订单</a></li>
                         <li class=""><a href="#">仓库</a></li>
                         <li class=""><a href="#">数据统计</a></li>
                         <li class="dropdown">
