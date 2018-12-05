@@ -12,7 +12,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <script src="https://use.fontawesome.com/874dbadbd7.js"></script>
+    {{--<script src="https://use.fontawesome.com/874dbadbd7.js"></script>--}}
 </head>
 <body>
     <div id="app">
@@ -38,7 +38,8 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
                         <li class="active"><a href="/products">产品列表</a></li>
-                        <li class=""><a href="#">我的订单</a></li>
+                        <li class=""><a href="/orders/me">我的订单</a></li>
+                        <li class=""><a href="/losses">损耗</a></li>
                         <li class=""><a href="#">仓库</a></li>
                         <li class=""><a href="#">数据统计</a></li>
                         <li class="dropdown">
@@ -104,7 +105,7 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/jqPaginator.js') }}"></script>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    {{--<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>--}}
     <script>
             $.ajaxSetup({
                 headers: {

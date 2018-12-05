@@ -41,6 +41,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('orders/me','OrdersController@myOrders');
     Route::resource('products','ProductsController');
 
+    //损耗
+    Route::get('losses','LossesController@index');
+
+
+
     Route::prefix('admin')->group(function () {
         Route::namespace('Admin')->group(function () {
             Route::get('warehouses','WarehousesController@index');
