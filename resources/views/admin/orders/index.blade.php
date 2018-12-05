@@ -55,7 +55,7 @@
                     @foreach($orders['data'] as $order)
                         <tr>
                             <td><input type="checkbox" @if($order['checker_id']) disabled @endif value="{{  $order['id'] }}"></td>
-                            <td><a href="#">{{ $order['product_name'] }}</a></td>
+                            <td><a href="/admin/products/{{ $order['product_id'] }}">{{ $order['product_name'] }}</a></td>
                             <td>{{ $order['count'] }}</td>
                             <td>{{ $order['price'] }}元/{{ $order['unit'] }}</td>
                             <td>{{ $order['total_money'] }}元</td>
@@ -65,7 +65,11 @@
                                 {{ $order['checker_name'] }}
                                 <p>  {{ $order['checked_at'] }}</p>
                             </td>
-                            <td>{{ $order['confirm_name'] }}</td>
+                            <td>
+                                {{ $order['confirm_name'] }}
+                                <p>  {{ $order['confirmed_at'] }}</p>
+                            </td>
+
                             <td>
                                 @if($order['checker_id'])
                                     已审核
