@@ -1,17 +1,15 @@
 @extends('layouts.app')
 @section('content')
-    <div class="col-sm-2 col-md-2 col-lg-2 pull-left">
-        <div class="sidebar-module">
-            <h4>菜单</h4>
-            <ol class="list-unstyled">
-                <li class="active "><a href="jacascript::void(0)" class="">产品列表</a></li>
-                <li><a href="jacascript::void(0)" class="">我的订单</a></li>
-                <li><a href="jacascript::void(0)" class="">我的损耗</a></li>
-                <li><a href="jacascript::void(0)" class="">实验室库存</a></li>
-            </ol>
-        </div>
-    </div>
-    <div class="col-sm-10 col-md-10 col-lg-10 pull-right">
+    {{--<div class="col-sm-2 col-md-2 col-lg-2 pull-left">--}}
+        {{--<div class="sidebar-module">--}}
+            {{--<h4>我的</h4>--}}
+            {{--<ul class="list-unstyled">--}}
+                {{--<li><a href="jacascript::void(0)" class="">我的订单</a></li>--}}
+                {{--<li><a href="jacascript::void(0)" class="">我的损耗</a></li>--}}
+            {{--</ul>--}}
+        {{--</div>--}}
+    {{--</div>--}}
+    <div class="col-sm-12 col-md-12 col-lg-12 pull-right">
         <div class="row">
             <div class="col-lg-8">
                 <!-- Single button -->

@@ -51,6 +51,11 @@ Route::group(['middleware' => ['auth']], function () {
             Route::post('products/{product}/update','ProductsController@update');
 
 
+            //订单管理
+            Route::get('orders','OrdersController@index');
+            Route::post('orders','OrdersController@check');
+
+
 //            Route::resource('products','ProductsController');
 
             //仓库相关

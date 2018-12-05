@@ -37,14 +37,16 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
-                        <li class="active"><a href="#">产品列表</a></li>
+                        <li class="active"><a href="/products">产品列表</a></li>
                         <li class=""><a href="#">仓库</a></li>
                         <li class=""><a href="#">数据统计</a></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">后台管理<span class="caret"></span></a>
                             <ul class="dropdown-menu">
+                                <li><a href="/admin/orders">订单管理</a></li>
                                 <li><a href="/admin/warehouses">产品管理</a></li>
                                 <li><a href="/admin/users">人员管理</a></li>
+
                                 {{--<li><a href="#">Something else here</a></li>--}}
                                 {{--<li role="separator" class="divider"></li>--}}
                                 {{--<li class="dropdown-header">Nav header</li>--}}

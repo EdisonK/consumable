@@ -17,8 +17,8 @@ class AddSomeColToOrdersTable extends Migration
             $table->integer('check_status_id')->comment('客户审核状态，表示通过,或者拒绝')->default(0)->after('checked_at');
             $table->string('checked_note')->comment('客户审核备注')->nullable()->after('check_status_id');
             $table->integer('confirm_id')->comment('确认人id')->nullable();
-            $table->integer('confirmed_at')->comment('确认时间')->nullable();
-            $table->integer('confirmed_note')->comment('确认备注')->nullable();
+            $table->timestamp('confirmed_at')->comment('确认时间')->nullable();
+            $table->string('confirmed_note')->comment('确认备注')->nullable();
         });
     }
 
