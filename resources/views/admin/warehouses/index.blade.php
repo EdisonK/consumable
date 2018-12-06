@@ -545,3 +545,4 @@
 
     </script>
 @endpush
+<script src="https://use.fontawesome.com/874dbadbd7.js"></script>

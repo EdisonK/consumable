@@ -109,7 +109,7 @@
                 next: '<li class="next"><a href="javascript:void(0);">下一页</a></li>',		// 下一页的HTML样式
                 last: '<li class="last"><a href="javascript:void(0);">末页</a></li>',
                 onPageChange: function (num, type) {
-                    var url = '/orders/me';
+                    var url = '/orders';
                     var keyword = $('#keyword').val();
                     var check_status = $('#check-status').val();
                     console.log(url);
@@ -131,7 +131,7 @@
         }
 
         function search() {
-            var url = '/orders/me';
+            var url = '/orders';
             var keyword = $('#keyword').val();
             var check_status = $('#check-status').val();
             url +=  '?check_status=' + check_status;
