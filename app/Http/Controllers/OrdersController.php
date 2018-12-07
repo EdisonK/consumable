@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class OrdersController extends Controller
@@ -17,19 +18,27 @@ class OrdersController extends Controller
         $this->validate($request,[
             'per_page' => 'nullable|integer|max:30',
             'check_status' => 'nullable|string',
+            'date_from' => 'nullable|string',
+            'date_to' => 'nullable|string',
             'keyword' => 'nullable|string'
         ]);
-        $userId = auth()->id();
         $perPage = $request->per_page;
 //        $perPage = 1;
-
-        $query =   Order::with(['product','creator','checker','checkStatus','confirmer'])->where('creator_id',$userId);
+        $date_from = $request->date_from ? Carbon::parse($request->date_from)->toDateTimeString() : Carbon::now()->startOfMonth()->toDateTimeString();
+        $date_to = $request->date_to ? Carbon::parse($request->date_to)->endOfDay()->toDateTimeString() : Carbon::now()->endOfDay()->toDateTimeString();
+        $query = Order::with(['product','creator','checker','checkStatus','confirmer']);
+        $query->where('created_at','>=',$date_from);
+        $query->where('created_at','<=',$date_to);
+//        dd($query->toSql());
         if($keyword = $request->keyword){
-            $query->orWhereHas('product',function ($query) use($keyword){
-                $query->where('name','like',"%$keyword%");
-            })->orWhereHas('creator',function ($query) use($keyword){
-                $query->where('name','like',"%$keyword%");
+            $query->where(function ($query)use($keyword){
+                $query->orWhereHas('product',function ($query) use($keyword){
+                    $query->where('name','like',"%$keyword%");
+                })->orWhereHas('creator',function ($query) use($keyword){
+                    $query->where('name','like',"%$keyword%");
+                });
             });
+
         }
         if($check_status = $request->check_status){
             if($check_status == 1){
@@ -69,7 +78,9 @@ class OrdersController extends Controller
         $data = [
             'orders' => $orderArr,
             'checkStatus' => $check_status,
-            'keyword' => $keyword ? $keyword : null
+            'keyword' => $keyword ? $keyword : null,
+            'date_from' => Carbon::parse($date_from)->format('Y-m-d'),
+            'date_to' => Carbon::parse($date_to)->format('Y-m-d')
         ];
         return view('orders.index',$data);
     }
