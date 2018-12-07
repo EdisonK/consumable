@@ -120,10 +120,12 @@
                 onPageChange: function (num, type) {
                     var url = '/orders';
                     var keyword = $('#keyword').val();
+                    var date_from = $('#date_from').val();
+                    var date_to = $('#date_to').val();
                     var check_status = $('#check-status').val();
                     console.log(url);
                     url +=  '?page='+num;
-                    url +=  '?date_from=' + date_from;
+                    url +=  '&date_from=' + date_from;
                     url +=  '&date_to=' + date_to;
                     if(check_status){
                         url +=  '&check_status=' + check_status;

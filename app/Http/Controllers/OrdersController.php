@@ -29,7 +29,6 @@ class OrdersController extends Controller
         $query = Order::with(['product','creator','checker','checkStatus','confirmer']);
         $query->where('created_at','>=',$date_from);
         $query->where('created_at','<=',$date_to);
-//        dd($query->toSql());
         if($keyword = $request->keyword){
             $query->where(function ($query)use($keyword){
                 $query->orWhereHas('product',function ($query) use($keyword){
