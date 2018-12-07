@@ -11,11 +11,11 @@
     {{--</div>--}}
     <div class="col-sm-12 col-md-12 col-lg-12 pull-right">
         <div class="row">
-            <div class="col-lg-8">
+            <div class="col-lg-8 col-md-8">
                 <!-- Single button -->
                 {{--<button type="button" class="btn btn-default">下单</button>--}}
             </div><!-- /.col-lg-6 -->
-            <div class="col-lg-4">
+            <div class="col-lg-4 col-md-4">
                 <div class="input-group">
                     <input type="text" class="form-control" placeholder="请输入关键字（名称、cas）"value="{{ $keyword }}" id="keyword">
                     <span class="input-group-btn">

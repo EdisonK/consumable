@@ -13,6 +13,12 @@
         <div class="row">
             <div class="col-lg-8">
                 <!-- Single button -->
+                <div class="col-lg-4 pull-right c-datepicker-date-editor J-datepicker-range-day" style="margin-right: -30px;margin-top: 2px;">
+                    <i class="c-datepicker-range__icon kxiconfont icon-clock"></i>
+                    <input placeholder="开始日期" name="" class="c-datepicker-data-input only-date" id="start_at" value="2018-01-01 ">
+                    <span class="c-datepicker-range-separator">-</span>
+                    <input placeholder="结束日期" name="" class="c-datepicker-data-input only-date" id="end_at" value="2018-03-01 ">
+                </div>
             </div><!-- /.col-lg-6 -->
             <div class="col-lg-4">
                 <div  class="col-lg-4">
@@ -22,7 +28,7 @@
                         <option value="2"  @if ($checkStatus == 2) selected @endif>未审核</option>
                     </select>
                 </div>
-                <div class="input-group">
+                <div class="input-group col-lg-8">
                     <input type="text" class="form-control" placeholder="关键字（产品名、创建人）"value="{{ $keyword }}" id="keyword">
                     <span class="input-group-btn">
                     <button class="btn btn-default" type="button" id="search">搜索</button>

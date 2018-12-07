@@ -12,6 +12,8 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    {{--新加的时间选择器--}}
+    <link href="{{ asset('css/datepicker.css') }}" rel="stylesheet">
     {{--<script src="https://use.fontawesome.com/874dbadbd7.js"></script>--}}
 </head>
 <body>
@@ -106,6 +108,8 @@
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/jqPaginator.js') }}"></script>
     <script src="{{ asset('js/sweetalert.min.js') }}"></script>
+    <script src="{{ asset('js/moment.min.js') }}"></script>
+    <script src="{{ asset('js/datepicker.all.js') }}"></script>
     {{--<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>--}}
     <script>
             $.ajaxSetup({
@@ -114,6 +118,30 @@
                 }
             });
 
+    </script>
+    <script type="text/javascript">
+        $(function(){
+            var DATAPICKERAPI = {
+                // 快捷选项option
+                rangeShortcutOption1: [{
+                    name: '最近一周',
+                    day: '-7,0'
+                }, {
+                    name: '最近一个月',
+                    day: '-30,0'
+                }, {
+                    name: '最近三个月',
+                    day: '-90, 0'
+                }]
+            };
+            //年月日范围
+            $('.J-datepicker-range-day').datePicker({
+                hasShortcut: true,
+                format: 'YYYY-MM-DD',
+                isRange: true,
+                shortcutOptions: DATAPICKERAPI.rangeShortcutOption1
+            });
+        });
     </script>
     @stack('scripts')
 </body>
