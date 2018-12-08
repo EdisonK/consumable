@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Inventory;
 use App\Models\Loss;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class LossesController extends Controller
 {
@@ -42,7 +44,7 @@ class LossesController extends Controller
                 'loss_count' => $loss->loss_count,
                 'price' => $loss->product ? $loss->product->price : 0,
                 'unit' => $loss->product ? $loss->product->unit : null,
-                'total_money' => ($loss->product ? $loss->product->price : 0) * $loss->count,
+                'total_money' => ($loss->product ? $loss->product->price : 0) * $loss->loss_count,
                 'note' => $loss->note,
                 'creator_id' => $loss->creator_id,
                 'creator_name' => $loss->creator ? $loss->creator->name : null,
@@ -50,11 +52,14 @@ class LossesController extends Controller
             ];
         })->toArray()]);
 
+        $inventories = Inventory::all();
+
         $data = [
             'losses' => $lossArr,
             'creatorId' => $creator_id,
             'keyword' => $keyword ? $keyword : null,
-            'users' => User::all()
+            'users' => User::all(),
+            'inventories' => $inventories,
         ];
         return view('losses.index',$data);
     }
@@ -77,7 +82,39 @@ class LossesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request,[
+            'product_id' => 'required|integer|exists:products,id',
+            'loss_count' => 'required|integer|min:1',
+            'note' => 'nullable|string'
+        ]);
+        $userId = auth()->id();
+
+        DB::transaction(function () use ($request,$userId) {
+            Loss::create([
+                'product_id' => $request->product_id,
+                'loss_count' => $request->loss_count,
+                'note' => $request->note,
+                'creator_id' =>  $userId
+            ]);
+            $productId = $request->product_id;
+            $lossCount = $request->loss_count;
+            $inventory = Inventory::where('product_id',$productId)->first();
+            if(count($inventory)){
+                if($inventory->total_count <= $lossCount){
+                    $inventory->total_count = 0;
+                    $inventory->save();
+                }else{
+                    $inventory->decrement('total_count', $lossCount);
+                }
+            }else{
+                Inventory::create([
+                    'product_id' => $productId,
+                    'total_count' => 0
+                ]);
+            }
+        });
+
+        return $this->success('成功');
     }
 
     /**

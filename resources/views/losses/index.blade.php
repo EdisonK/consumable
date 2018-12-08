@@ -13,7 +13,7 @@
         <div class="row">
             <div class="col-lg-8 col-md-8">
                 <!-- Single button -->
-                <button class="btn btn-danger">添加损耗</button>
+                <button class="btn btn-danger" id="add_loss">添加损耗</button>
             </div><!-- /.col-lg-6 -->
             <div class="col-lg-4 col-md-4">
                 <div  class="col-lg-4 col-md-4">
@@ -50,17 +50,17 @@
                     <tbody data-total="{{ $losses['last_page'] }}" id="pages" data-current="{{ $losses['current_page'] }}">
                     @foreach($losses['data'] as $loss)
                         <tr>
-                            <td><a href="/admin/products/{{ $loss['product_id'] }}">{{ $loss['product_name'] }}</a></td>
-                            <td>{{ $order['loss_count'] }}</td>
-                            <td>{{ $order['price'] }}元/{{ $order['unit'] }}</td>
-                            <td>{{ $order['total_money'] }}元</td>
+                            <td><a href="/products/{{ $loss['product_id'] }}">{{ $loss['product_name'] }}</a></td>
+                            <td>{{ $loss['loss_count'] }}</td>
+                            <td>{{ $loss['price'] }}元/{{ $loss['unit'] }}</td>
+                            <td>{{ $loss['total_money'] }}元</td>
                             <td>
-                                {{ $order['creator_name'] }}
+                                {{ $loss['creator_name'] }}
                                 <p>
-                                    {{ $order['created_at'] }}
+                                    {{ $loss['created_at'] }}
                                 </p>
                             </td>
-                            <td>{{ $order['note'] }}</td>
+                            <td>{{ $loss['note'] }}</td>
 
                         </tr>
                     @endforeach
@@ -77,6 +77,46 @@
     </div>
 
 
+    <!-- 添加Modal -->
+    <div class="modal fade" id="myLossModal" tabindex="-1" role="dialog" aria-labelledby="myLossModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myLossModalLabel">损耗</h4>
+                </div>
+                <div class="modal-body">
+                     <select class="form-control" id="product_id">
+                         <option value="">请选择</option>
+                         @foreach( $inventories as $key => $inventory)
+                         <option value="{{ $inventory->product_id }}" alt="{{  $inventory->total_count }}">{{ $inventory->product->name }}</option>
+                         @endforeach
+                     </select>
+                    {{--<select class="js-ex form-control" name="state">--}}
+                        {{--<option value="AL">Alabama</option>--}}
+                        {{--<option value="WY">Wyoming</option>--}}
+                    {{--</select>--}}
+                    <br>
+                    <input class="form-control" placeholder="请输入损耗的数量" id="loss_count" alt>
+                    <br>
+                    <textarea placeholder="请填写损耗的备注"
+                              style="resize: vertical"
+                              id="loss_note"
+                              name="body"
+                              rows="3" spellcheck="false"
+                              class="form-control autosize-target text-left">
+                    </textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" alt id="loss_save">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 @endsection
 
 @push('scripts')
@@ -85,6 +125,13 @@
 
             $('#search').bind('click', search);
             $('#creator-id').on('change',search);
+
+            //添加损耗
+            $('#add_loss').bind('click', showLossModel);
+            $('#loss_save').bind('click', saveLossModel);
+
+            $('#product_id').on('change', changeCount);
+
             init();
 
             //敲回车搜索
@@ -93,7 +140,35 @@
                     search();
                 }
             });
+
+            // $('.js-ex').select2();
         });
+        function changeCount() {
+            // console.log($('#product_id:selected').attr('alt'));
+            // $('#loss_count').attr('alt',$(this).attr('alt'));
+        }
+
+
+        function showLossModel() {
+            $('#myLossModal').modal('show');
+            console.log('{{ csrf_token() }}');
+        }
+
+        function saveLossModel() {
+            //添加损耗
+            var loss_count = $("#loss_count").val();
+            var product_id = $("#product_id").val();
+            var note = $("#loss_note").val();
+
+            var url = "/losses";
+            $.post(url,{ loss_count : loss_count, product_id : product_id, note: note},function(result){
+                if(result.code == 0){
+                    window.location.reload();
+                }else{
+                    alert(result.message);
+                }
+            });
+        }
 
         function init() {
             var if_firstime = true;
