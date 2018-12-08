@@ -11,12 +11,12 @@
     {{--</div>--}}
     <div class="col-sm-12 col-md-12 col-lg-12 pull-right">
         <div class="row">
-            <div class="col-lg-8">
+            <div class="col-lg-8 col-md-8">
                 <!-- Single button -->
                 <button class="btn btn-danger">添加损耗</button>
             </div><!-- /.col-lg-6 -->
-            <div class="col-lg-4">
-                <div  class="col-lg-4">
+            <div class="col-lg-4 col-md-4">
+                <div  class="col-lg-4 col-md-4">
                     <select  class="form-control" id="creator-id">
                         <option value="">请选择</option>
                         @foreach( $users as $key => $user)
@@ -24,7 +24,7 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="input-group">
+                <div class="input-group col-lg-8 col-md-8">
                     <input type="text" class="form-control" placeholder="关键字（产品名、创建人）"value="{{ $keyword }}" id="keyword">
                     <span class="input-group-btn">
                     <button class="btn btn-default" type="button" id="search">搜索</button>

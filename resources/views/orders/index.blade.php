@@ -11,8 +11,11 @@
     {{--</div>--}}
     <div class="col-sm-12 col-md-12 col-lg-12 pull-right">
         <div class="row">
-            <div class="col-lg-8">
-                <!-- Single button -->
+            <div class="col-lg-8 col-md-8">
+                <div class="col-lg-8">
+                    <!-- Single button -->
+                    <button class="btn-primary btn" id="confirm" value="">接收</button>
+                </div><!-- /.col-lg-6 -->
                 <div class="col-lg-4 pull-right c-datepicker-date-editor J-datepicker-range-day" style="margin-right: -30px;margin-top: 2px;">
                     <i class="c-datepicker-range__icon kxiconfont icon-clock"></i>
                     <input placeholder="开始日期" name="" class="c-datepicker-data-input only-date" id="date_from" value="{{ $date_from }}">
@@ -20,15 +23,15 @@
                     <input placeholder="结束日期" name="" class="c-datepicker-data-input only-date" id="date_to" value="{{ $date_to }}">
                 </div>
             </div><!-- /.col-lg-6 -->
-            <div class="col-lg-4">
-                <div  class="col-lg-4">
-                    <select  class="form-control" id="check-status">
+            <div class="col-lg-4 col-md-4">
+                <div  class="col-lg-4 col-md-4">
+                    <select  class="form-control " id="check-status">
                         <option value="">请选择</option>
                         <option value="1"  @if ($checkStatus == 1) selected @endif >已审核</option>
                         <option value="2"  @if ($checkStatus == 2) selected @endif>未审核</option>
                     </select>
                 </div>
-                <div class="input-group col-lg-8">
+                <div class="input-group col-lg-8 col-md-8">
                     <input type="text" class="form-control" placeholder="关键字（产品名、创建人）"value="{{ $keyword }}" id="keyword">
                     <span class="input-group-btn">
                     <button class="btn btn-default" type="button" id="search">搜索</button>
@@ -43,6 +46,7 @@
                 <table class="table table-striped">
                     <thead>
                     <tr>
+                        <th><input type="checkbox" id="all" ></th>
                         <th>产品名</th>
                         <th>数量</th>
                         <th>单价</th>
@@ -56,7 +60,8 @@
                     <tbody data-total="{{ $orders['last_page'] }}" id="pages" data-current="{{ $orders['current_page'] }}">
                     @foreach($orders['data'] as $order)
                         <tr>
-                            <td><a href="/admin/products/{{ $order['product_id'] }}">{{ $order['product_name'] }}</a></td>
+                            <td><input type="checkbox"  @if(($order['check_status_id'] != 1) || $order['confirm_id'])) disabled @endif  value="{{  $order['id'] }}"></td>
+                            <td><a href="/products/{{ $order['product_id'] }}">{{ $order['product_name'] }}</a></td>
                             <td>{{ $order['count'] }}</td>
                             <td>{{ $order['price'] }}元/{{ $order['unit'] }}</td>
                             <td>{{ $order['total_money'] }}元</td>
@@ -86,18 +91,16 @@
 
         </div>
     </div>
-
-
 @endsection
 
 @push('scripts')
     <script>
         $(function () {
-
             $('#search').bind('click', search);
             $('#check-status').on('change',search);
+            $('#all').on('change',changeCheckBox);
+            $('#confirm').bind('click',confirm);
             init();
-
             //敲回车搜索
             $('#keyword').keyup(function (e) {
                 if(e.keyCode == 13){
@@ -105,6 +108,40 @@
                 }
             });
         });
+
+        function changeCheckBox() {
+            var that = $("tbody input[type='checkbox']:not(:disabled)");
+            if($(this).is(':checked')){
+                that.each(function (i,e) {
+                    $(e).prop("checked",true);
+                });
+            }else{
+                that.each(function (i,e) {
+                    $(e).prop("checked",false);
+                });
+            }
+        }
+
+        function confirm() {
+            var that = $("tbody input[type='checkbox']:not(:disabled):checked");
+            var arr = new Array();
+            that.each(function (i,e) {
+                arr[i] = $(e).val()
+            })
+            if( arr.length <= 0){
+                alert('请至少选择一项');
+                return;
+            }
+            var url = '/orders/batch';
+            $.post(url,{'order_ids':arr},function (res) {
+                if(res.code == 0){
+                    window.location.href = '/orders';
+                }else{
+                    alert(res.message);
+                }
+            })
+        }
+
 
         function init() {
             var if_firstime = true;

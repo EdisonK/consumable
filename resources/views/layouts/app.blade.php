@@ -39,8 +39,8 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
-                        <li class="active"><a href="/products">产品列表</a></li>
-                        <li class=""><a href="/orders">我的订单</a></li>
+                        <li class="active"><a href="/products">产品</a></li>
+                        <li class=""><a href="/orders">订单</a></li>
                         <li class=""><a href="/losses">损耗</a></li>
                         <li class=""><a href="#">仓库</a></li>
                         <li class=""><a href="#">数据统计</a></li>

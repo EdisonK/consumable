@@ -85,6 +85,34 @@ class OrdersController extends Controller
     }
 
     /**
+     * 批量接收订单产品并入库
+     * vito
+     *
+     * */
+    public function batchConfirm(Request $request)
+    {
+        $this->validate($request,[
+            'order_ids' => 'required|array',
+            'order_ids.*' => 'required|integer|exists:orders,id'
+        ]);
+        $userId = auth()->id();
+        $orders = Order::findMany($request->order_ids);
+        $bool = $orders->contains(function ($order, $key) {
+            return ( ($order->check_status_id != 1) || is_null($order->checker_id)) ;
+        });
+        if($bool){
+            return $this->fail('您传入的id包含已经接收的订单或者审核未通过的订单，请核对后再接收');
+        }
+
+        foreach ($orders as $key => $order){
+            $order->confirm_id = $userId;
+            $order->confirmed_at = Carbon::now();
+            $order->save();
+        }
+        return $this->successWithData(Order::findMany($request->order_ids),'接收成功');
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response

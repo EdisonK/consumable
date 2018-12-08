@@ -38,6 +38,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     //后面要加权限必须登陆的才行
     Route::post('orders','OrdersController@store');
+    Route::post('orders/batch','OrdersController@batchConfirm');
     Route::get('orders','OrdersController@index');
     Route::resource('products','ProductsController');
 
