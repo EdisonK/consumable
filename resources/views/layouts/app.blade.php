@@ -111,8 +111,6 @@
     <script src="{{ asset('js/sweetalert.min.js') }}"></script>
     <script src="{{ asset('js/moment.min.js') }}"></script>
     <script src="{{ asset('js/datepicker.all.js') }}"></script>
-    {{--<script src="{{ asset('js/bootstrap.min.js') }}"></script>--}}
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
             $.ajaxSetup({
                 headers: {
