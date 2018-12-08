@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Inventory;
 use App\Models\Order;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class OrdersController extends Controller
 {
@@ -105,9 +107,23 @@ class OrdersController extends Controller
         }
 
         foreach ($orders as $key => $order){
-            $order->confirm_id = $userId;
-            $order->confirmed_at = Carbon::now();
-            $order->save();
+            DB::transaction(function () use ($order,$userId) {
+                $order->confirm_id = $userId;
+                $order->confirmed_at = Carbon::now();
+                $order->save();
+                $productId = $order->product_id;
+                $count = $order->count;
+
+                $inventory = Inventory::where('product_id',$productId)->first();
+                if(count($inventory)){
+                    $inventory->increment('total_count', $count);
+                }else{
+                    Inventory::create([
+                        'product_id' => $productId,
+                        'total_count' => $count
+                    ]);
+                }
+            });
         }
         return $this->successWithData(Order::findMany($request->order_ids),'接收成功');
     }

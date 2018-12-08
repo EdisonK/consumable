@@ -8,6 +8,8 @@ class Inventory extends Model
 {
     protected $table = 'inventories';
 
+    protected $guarded = ['id'];
+
     public $timestamps = false;
 
     public function product()
