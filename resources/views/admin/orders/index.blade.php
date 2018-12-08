@@ -119,11 +119,14 @@
         
         function changeCheckBox() {
             var that = $("tbody input[type='checkbox']:not(:disabled)");
-            if(that.is(':checked')){
-                that.removeAttr("checked");
-            }else {
-                that.attr("checked",true);
-
+            if($(this).is(':checked')){
+                that.each(function (i,e) {
+                    $(e).prop("checked",true);
+                });
+            }else{
+                that.each(function (i,e) {
+                    $(e).prop("checked",false);
+                });
             }
         }
         function check() {
@@ -151,7 +154,7 @@
         }
 
         function checkOne() {
-            $(this).parents('tr').find("input[type='checkbox']").attr('checked',true);
+            $(this).parents('tr').find("input[type='checkbox']").prop('checked',true);
             var flag = $(this).val();
             var arr = new Array();
                 arr[0] = $(this).attr('alt');
