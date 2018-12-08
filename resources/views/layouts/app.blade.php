@@ -12,6 +12,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
     {{--新加的时间选择器--}}
     <link href="{{ asset('css/datepicker.css') }}" rel="stylesheet">
     {{--<script src="https://use.fontawesome.com/874dbadbd7.js"></script>--}}
@@ -48,7 +49,7 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">后台管理<span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="/admin/orders">订单管理</a></li>
-                                <li><a href="/admin/warehouses">产品管理</a></li>
+                                <li><a href="/admin/products">产品管理</a></li>
                                 <li><a href="/admin/users">人员管理</a></li>
 
                                 {{--<li><a href="#">Something else here</a></li>--}}
@@ -110,7 +111,8 @@
     <script src="{{ asset('js/sweetalert.min.js') }}"></script>
     <script src="{{ asset('js/moment.min.js') }}"></script>
     <script src="{{ asset('js/datepicker.all.js') }}"></script>
-    {{--<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>--}}
+    {{--<script src="{{ asset('js/bootstrap.min.js') }}"></script>--}}
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
             $.ajaxSetup({
                 headers: {

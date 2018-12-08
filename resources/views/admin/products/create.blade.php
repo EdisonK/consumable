@@ -123,7 +123,7 @@
         <div class="sidebar-module">
             <h4>导航</h4>
             <ol class="list-unstyled">
-                <li><a href="/admin/warehouses">管理首页</a></li>
+                <li><a href="/admin/products">管理首页</a></li>
             {{--<li><a href="/projects/create">Add Project</a></li>--}}
             {{--<li><a href="/companies">My Companies</a></li>--}}
             {{--<li><a href="/companies/create">Create new Company</a></li>--}}
@@ -187,7 +187,7 @@
 
             $.post(url,data,function (result) {
                 if(result.code == 0){
-                    window.location.href = '/admin/warehouses';
+                    window.location.href = '/admin/products';
                 }else{
                     alert('保存失败');
                 }

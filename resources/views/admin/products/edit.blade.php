@@ -207,7 +207,7 @@
         <div class="sidebar-module">
             <h4>导航</h4>
             <ol class="list-unstyled">
-            <li><a href="/admin/warehouses">产品管理</a></li>
+            <li><a href="/admin/products">产品管理</a></li>
             {{--<li><a href="/projects/create">Add Project</a></li>--}}
             {{--<li><a href="/companies">My Companies</a></li>--}}
             {{--<li><a href="/companies/create">Create new Company</a></li>--}}

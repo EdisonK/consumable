@@ -17,10 +17,30 @@ class ProductsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $perPage = $request->per_page;
+        $warehouses = Warehouse::all();
 
-        return view('admin.prodocts.index', []);
+        $query = Product::query();
+        if($keyword = $request->keyword){
+            $query->where(function($query) use ($keyword){
+                $query->orWhere('name','like',"%$keyword%")
+                    ->orWhere('chinese_name','like',"%$keyword%")
+                    ->orWhere('english_name','like',"%$keyword%")
+                    ->orWhere('cas','like',"%$keyword%");
+            });
+        }
+        $products = $query->paginate($perPage);
+
+        $data = [
+            'warehouses' => $warehouses,
+            'products' => $products,
+            'keyword' => $keyword ? $keyword : null
+        ];
+        return view('admin.products.index', $data);
+
+
     }
 
     /**
