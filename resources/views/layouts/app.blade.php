@@ -40,33 +40,31 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
-                        <li class="active"><a href="/products">产品</a></li>
-                        <li class=""><a href="/orders">订单</a></li>
-                        <li class=""><a href="/losses">损耗</a></li>
-                        <li class=""><a href="#">仓库</a></li>
-                        <li class=""><a href="#">数据统计</a></li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">后台管理<span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="/admin/orders">订单管理</a></li>
-                                <li><a href="/admin/products">产品管理</a></li>
-                                <li><a href="/admin/users">人员管理</a></li>
+                        @guest
 
-                                {{--<li><a href="#">Something else here</a></li>--}}
-                                {{--<li role="separator" class="divider"></li>--}}
-                                {{--<li class="dropdown-header">Nav header</li>--}}
-                                {{--<li><a href="#">Separated link</a></li>--}}
-                                {{--<li><a href="#">One more separated link</a></li>--}}
-                            </ul>
-                        </li>
+                        @else
+                            <li class="active"><a href="/products">产品</a></li>
+                            <li class=""><a href="/orders">订单</a></li>
+                            <li class=""><a href="/losses">损耗</a></li>
+                            <li class=""><a href="#">仓库</a></li>
+                            <li class=""><a href="#">数据统计</a></li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">后台管理<span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="/admin/orders">订单管理</a></li>
+                                    <li><a href="/admin/products">产品管理</a></li>
+                                    <li><a href="/admin/users">人员管理</a></li>
+                                </ul>
+                            </li>
+                        @endguest
                     </ul>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
                         @guest
-                            <li><a href="{{ route('login') }}">Login</a></li>
-                            <li><a href="{{ route('register') }}">Register</a></li>
+                            <li><a href="{{ route('login') }}">登陆</a></li>
+                            <li><a href="{{ route('register') }}">注册</a></li>
                         @else
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" v-pre>
@@ -75,10 +73,13 @@
 
                                 <ul class="dropdown-menu">
                                     <li>
+                                        <a href="">重置密码</a>
+                                    </li>
+                                    <li>
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                            Logout
+                                            退出
                                         </a>
 
                                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
