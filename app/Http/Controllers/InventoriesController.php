@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Inventory;
+use App\Models\Order;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class InventoriesController extends Controller
@@ -11,9 +14,39 @@ class InventoriesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $this->validate($request,[
+            'per_page' => 'nullable|integer|max:30',
+            'keyword' => 'nullable|string'
+        ]);
+        $perPage = $request->per_page;
+//        $perPage = 1;
+        $query = Inventory::with('product');
+        if($keyword = $request->keyword){
+            $query->whereHas('product',function ($query) use($keyword){
+                $query->where('name','like',"%$keyword%");
+            });
+        }
+        $query->orderBy('id','desc');
+        $inventories = $query->paginate($perPage);
+        $inventoryArr = array_merge($inventories->toArray(),[ 'data' => $inventories->map(function ($inventory){
+            return [
+                'id' => $inventory->id,
+                'product_id' => $inventory->product_id,
+                'product_name' => $inventory->product ? $inventory->product->name : null,
+                'total_count' => $inventory->total_count,
+                'price' => $inventory->product ? $inventory->product->price : 0,
+                'unit' => $inventory->product ? $inventory->product->unit : null,
+                'total_money' => ($inventory->product ? $inventory->product->price : 0) * $inventory->total_count,
+            ];
+        })->toArray()]);
+
+        $data = [
+            'inventories' => $inventoryArr,
+            'keyword' => $keyword ? $keyword : null,
+        ];
+        return view('inventories.index',$data);
     }
 
     /**

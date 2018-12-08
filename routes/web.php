@@ -45,6 +45,9 @@ Route::group(['middleware' => ['auth']], function () {
     //损耗
     Route::get('losses','LossesController@index');
 
+    //库存
+    Route::get('inventories','InventoriesController@index');
+
 
 
     Route::prefix('admin')->group(function () {
