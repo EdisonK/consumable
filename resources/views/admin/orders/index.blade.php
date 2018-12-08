@@ -13,8 +13,16 @@
         <div class="row">
             <div class="col-lg-8">
                 <!-- Single button -->
-                <button class="btn-primary btn" id="check_pass" value="1">审核通过</button>
-                <button class="btn-danger btn" id="check_reject" value="2">审核拒绝</button>
+                <div class="col-lg-8">
+                    <button class="btn-primary btn" id="check_pass" value="1">审核通过</button>
+                    <button class="btn-danger btn" id="check_reject" value="2">审核拒绝</button>
+                </div>
+                <div class="col-lg-4 pull-right c-datepicker-date-editor J-datepicker-range-day" style="margin-right: -30px;margin-top: 2px;">
+                    <i class="c-datepicker-range__icon kxiconfont icon-clock"></i>
+                    <input placeholder="开始日期" name="" class="c-datepicker-data-input only-date" id="date_from" value="{{ $date_from }}">
+                    <span class="c-datepicker-range-separator">-</span>
+                    <input placeholder="结束日期" name="" class="c-datepicker-data-input only-date" id="date_to" value="{{ $date_to }}">
+                </div>
             </div><!-- /.col-lg-6 -->
             <div class="col-lg-4">
                 <div  class="col-lg-4">
@@ -59,7 +67,10 @@
                             <td>{{ $order['count'] }}</td>
                             <td>{{ $order['price'] }}元/{{ $order['unit'] }}</td>
                             <td>{{ $order['total_money'] }}元</td>
-                            <td>{{ $order['creator_name'] }}</td>
+                            <td>
+                                {{ $order['creator_name'] }}
+                                <p>{{ $order['created_at'] }}</p>
+                            </td>
                             <td>{{ $order['check_status_name'] }}</td>
                             <td>
                                 {{ $order['checker_name'] }}
@@ -186,14 +197,18 @@
                 onPageChange: function (num, type) {
                     var url = '/admin/orders';
                     var keyword = $('#keyword').val();
+                    var date_from = $('#date_from').val();
+                    var date_to = $('#date_to').val();
                     var check_status = $('#check-status').val();
                     console.log(url);
                     url +=  '?page='+num;
-                    if(keyword){
-                        url +=  '&keyword=' + keyword;
-                    }
+                    url +=  '&date_from=' + date_from;
+                    url +=  '&date_to=' + date_to;
                     if(check_status){
                         url +=  '&check_status=' + check_status;
+                    }
+                    if(keyword){
+                        url +=  '&keyword=' + keyword;
                     }
                     if(if_firstime){
                         if_firstime = false;
@@ -208,9 +223,12 @@
         function search() {
             var url = '/admin/orders';
             var keyword = $('#keyword').val();
+            var date_from = $('#date_from').val();
+            var date_to = $('#date_to').val();
             var check_status = $('#check-status').val();
-            url +=  '?check_status=' + check_status;
-
+            url +=  '?date_from=' + date_from;
+            url +=  '&date_to=' + date_to;
+            url +=  '&check_status=' + check_status;
             if(keyword){
                 url +=  '&keyword=' + keyword;
             }
