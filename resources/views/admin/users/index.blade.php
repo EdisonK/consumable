@@ -11,14 +11,14 @@
     {{--</div>--}}
     <div class="col-sm-12 col-md-12 col-lg-12 pull-right">
         <div class="row">
-            <div class="col-lg-8">
+            <div class="col-lg-8 col-md-8">
                 <!-- Single button -->
 
             </div><!-- /.col-lg-6 -->
-            <div class="col-lg-4">
-                <div  class="col-lg-4">
+            <div class="col-lg-4 col-md-4">
+                <div  class="col-lg-4 col-md-4">
                 </div>
-                <div class="input-group">
+                <div class="input-group col-md-8">
                     <input type="text" class="form-control" placeholder="关键字(姓名)"value="{{ $keyword }}" id="keyword">
                     <span class="input-group-btn">
                     <button class="btn btn-default" type="button" id="search">搜索</button>
