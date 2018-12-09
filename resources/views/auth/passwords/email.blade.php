@@ -8,7 +8,7 @@
                 <div class="panel-heading">重置密码</div>
 
                 <div class="panel-body">
-                        实验药品管理
+                        请联系实验室管理员
                     {{--@if (session('status'))--}}
                         {{--<div class="alert alert-success">--}}
                             {{--{{ session('status') }}--}}
