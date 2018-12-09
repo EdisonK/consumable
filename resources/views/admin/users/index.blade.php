@@ -49,7 +49,7 @@
                                 @foreach($user['roles'] as $role)
                                     {{ $role->name }}
                                 @endforeach
-                                    <span aria-hidden="true" class="glyphicon glyphicon-edit "></span>
+                                    <span aria-hidden="true" class="glyphicon glyphicon-edit role-edit" alt="{{ $user['roles'] }}"></span>
                             </td>
                             <td>{{ $user['created_at'] }}</td>
                             <td>
@@ -74,6 +74,33 @@
         </div>
     </div>
 
+    <!-- 添加Modal -->
+    <div class="modal fade" id="myRoleModal" tabindex="-1" role="dialog" aria-labelledby="myRoleModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myRoleModalLabel">角色</h4>
+                </div>
+                <div class="modal-body">
+                    <select class="js-example-basic-multiple" name="states[]" multiple="multiple" style="width: 100%" id="role_ids">
+                        @foreach($user['roles'] as $role)
+                            <option value="{{ $role->name }}">{{ $role->name }}</option>
+                        @endforeach
+                    </select>
+
+                    <br>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" alt id="save">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 @endsection
 
@@ -87,6 +114,10 @@
             $('.off').bind('click',swithOn);
             $('.reset-password').bind('click',resetPassword);
 
+            //添加损耗
+            $('.role-edit').bind('click', showRoleModel);
+            $('#loss_save').bind('click', saveLossModel);
+
             init();
 
             //敲回车搜索
@@ -96,6 +127,33 @@
                 }
             });
         });
+
+        function showRoleModel() {
+            var seletct2 = $('.js-example-basic-multiple').select2();
+            $('#myRoleModal').modal('show');
+            var roles = $(this).attr('alt');
+            var arr = new Array();
+            $.each(JSON.parse(roles),function (i,e) {
+                arr[i] = e.name;
+            });
+            seletct2.val(arr).trigger("change");
+        }
+
+        function saveLossModel() {
+            //添加损耗
+            var loss_count = $("#loss_count").val();
+            var product_id = $("#product_id").val();
+            var note = $("#loss_note").val();
+
+            var url = "/losses";
+            $.post(url,{ loss_count : loss_count, product_id : product_id, note: note},function(result){
+                if(result.code == 0){
+                    window.location.reload();
+                }else{
+                    alert(result.message);
+                }
+            });
+        }
         
         function resetPassword() {
             var user_id = $(this).attr('alt');

@@ -13,7 +13,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
-    {{--<link href="{{ asset('css/select2.min.css') }}" rel="stylesheet">--}}
+    <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet">
     {{--新加的时间选择器--}}
     <link href="{{ asset('css/datepicker.css') }}" rel="stylesheet">
     {{--<script src="https://use.fontawesome.com/874dbadbd7.js"></script>--}}
@@ -113,7 +113,7 @@
     <script src="{{ asset('js/sweetalert.min.js') }}"></script>
     <script src="{{ asset('js/moment.min.js') }}"></script>
     <script src="{{ asset('js/datepicker.all.js') }}"></script>
-    {{--<script src="{{ asset('js/select2.min.js') }}"></script>--}}
+    <script src="{{ asset('js/select2.min.js') }}"></script>
     <script>
             $.ajaxSetup({
                 headers: {
