@@ -72,6 +72,7 @@ Route::group(['middleware' => ['auth']], function () {
             Route::get('users','UsersController@index');
             Route::post('users/on/{user}','UsersController@switchOn');
             Route::post('users/password/{user}','UsersController@resetPassword');
+            Route::post('users/roles/{user}','UsersController@setRolesForUser');
 
 
 

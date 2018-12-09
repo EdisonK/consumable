@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Role;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 
 class UsersController extends Controller
 {
@@ -67,5 +69,27 @@ class UsersController extends Controller
         $user->password = bcrypt('123456');
         $user->save();
         return $this->successWithData($user->fresh(),'成功');
+    }
+
+    public function setRolesForUser(Request $request,User $user)
+    {
+        $this->validate($request,[
+            'roles' => 'required|array',
+            'roles.*' => 'required|string|exists:roles,name'
+        ]);
+        $roles = $request->roles;
+
+        DB::transaction(function () use($roles,$user) {
+            $user->roles()->detach();
+            foreach ($roles as $key => $role){
+                $row = Role::where('name',$role)->first();
+                if(!count($row)){
+                    continue;
+                }
+                $user->roles()->attach($row);
+            }
+        });
+
+        return $this->success('设置成功');
     }
 }

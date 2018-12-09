@@ -49,7 +49,7 @@
                                 @foreach($user['roles'] as $role)
                                     {{ $role->name }}
                                 @endforeach
-                                    <span aria-hidden="true" class="glyphicon glyphicon-edit role-edit" alt="{{ $user['roles'] }}"></span>
+                                    <span aria-hidden="true" class="glyphicon glyphicon-edit role-edit" alt="{{ $user['roles'] }}" uid="{{ $user['id'] }}"></span>
                             </td>
                             <td>{{ $user['created_at'] }}</td>
                             <td>
@@ -84,7 +84,7 @@
                     <h4 class="modal-title" id="myRoleModalLabel">角色</h4>
                 </div>
                 <div class="modal-body">
-                    <select class="js-example-basic-multiple" name="states[]" multiple="multiple" style="width: 100%" id="role_ids">
+                    <select class="js-example-basic-multiple" name="states[]" multiple="multiple" style="width: 100%" id="roles">
                         @foreach($user['roles'] as $role)
                             <option value="{{ $role->name }}">{{ $role->name }}</option>
                         @endforeach
@@ -116,7 +116,7 @@
 
             //添加损耗
             $('.role-edit').bind('click', showRoleModel);
-            $('#loss_save').bind('click', saveLossModel);
+            $('#save').bind('click', saveRoleModel);
 
             init();
 
@@ -132,23 +132,23 @@
             var seletct2 = $('.js-example-basic-multiple').select2();
             $('#myRoleModal').modal('show');
             var roles = $(this).attr('alt');
+            var uid = $(this).attr('uid');
             var arr = new Array();
             $.each(JSON.parse(roles),function (i,e) {
                 arr[i] = e.name;
             });
             seletct2.val(arr).trigger("change");
+            $('#save').attr('alt',uid);
         }
 
-        function saveLossModel() {
-            //添加损耗
-            var loss_count = $("#loss_count").val();
-            var product_id = $("#product_id").val();
-            var note = $("#loss_note").val();
-
-            var url = "/losses";
-            $.post(url,{ loss_count : loss_count, product_id : product_id, note: note},function(result){
+        function saveRoleModel() {
+            //添加这个用户的角色
+            var roles = $("#roles").val();
+            var uid = $(this).attr('alt');
+            var url = "/admin/users/roles/"+uid;
+            $.post(url,{ roles : roles},function(result){
                 if(result.code == 0){
-                    window.location.reload();
+                    window.location.href = '/admin/users';
                 }else{
                     alert(result.message);
                 }
