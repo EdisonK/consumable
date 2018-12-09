@@ -32,6 +32,7 @@ class UsersController extends Controller
                 'name' => $user->name,
                 'email' => $user->email,
                 'created_at' => $user->created_at,
+                'roles' => $user->roles,
                 'on' => $user->on
             ];
         })->toArray()]);

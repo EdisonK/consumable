@@ -9,7 +9,8 @@
                 @foreach($warehouses as $warehouse)
                     <li>
                         <a href="jacascript::void(0)" class="tree ancestor">{{ $warehouse->name }}</a>
-                        <span class="hidden on-off"><i class="fa fa-edit warehouses-edit" alt="{{ $warehouse->id }}"></i><i class="fa fa-trash warehouse-trash" alt="{{ $warehouse->id }}"></i></span>
+                        <span class="hidden on-off"><i class="fa fa-edit warehouses-edit" alt="{{ $warehouse->id }}">
+                            </i><i class="fa fa-trash warehouse-trash" alt="{{ $warehouse->id }}"></i></span>
                         <ol class="hidden" style="list-style-type: none;">
                             @foreach($warehouse->classes as $class)
                                 <li  alt="{{ $class->id }}" type_class="classes">

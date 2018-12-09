@@ -35,6 +35,7 @@
                     <tr>
                         <th>姓名</th>
                         <th>邮箱</th>
+                        <th>角色</th>
                         <th>注册时间</th>
                         <th>操作</th>
                     </tr>
@@ -44,6 +45,12 @@
                         <tr>
                             <td>{{ $user['name'] }}</td>
                             <td>{{ $user['email'] }}</td>
+                            <td>
+                                @foreach($user['roles'] as $role)
+                                    {{ $role->name }}
+                                @endforeach
+                                    <span aria-hidden="true" class="glyphicon glyphicon-edit "></span>
+                            </td>
                             <td>{{ $user['created_at'] }}</td>
                             <td>
                                 <a class="reset-password" href="javascript:void(0)" alt="{{ $user['id'] }}">重置密码</a>
