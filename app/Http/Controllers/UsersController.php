@@ -46,7 +46,10 @@ class UsersController extends Controller
      */
     public function show(User $user)
     {
-        //
+        $data = [
+            'user' => $user
+        ];
+        return view('users.show',$data);
     }
 
     /**
@@ -81,5 +84,16 @@ class UsersController extends Controller
     public function destroy(User $user)
     {
         //
+    }
+
+
+    public function reset(Request $request,User $user)
+    {
+        $this->validate($request,[
+            'password' => 'required|string'
+        ]);
+        $user->password = bcrypt($request->password);
+        $user->save();
+        return $this->successWithData($user->fresh(),'成功');
     }
 }

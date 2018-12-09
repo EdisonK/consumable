@@ -49,6 +49,11 @@ Route::group(['middleware' => ['auth']], function () {
     //库存
     Route::get('inventories','InventoriesController@index');
 
+    //用户自己重新设置密码
+    Route::post('users/reset/{user}','UsersController@reset');
+    Route::get('users/{user}','UsersController@show');
+
+
 
 
     Route::prefix('admin')->group(function () {

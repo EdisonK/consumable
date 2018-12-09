@@ -74,7 +74,7 @@
 
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="">重置密码</a>
+                                        <a href="/users/{{ auth()->id() }}">重置密码</a>
                                     </li>
                                     <li>
                                         <a href="{{ route('logout') }}"
