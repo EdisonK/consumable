@@ -63,6 +63,13 @@ Route::group(['middleware' => ['auth']], function () {
             Route::post('products/{product}/update','ProductsController@update');
 
 
+            //人员管理
+            Route::get('users','UsersController@index');
+            Route::post('users/on/{user}','UsersController@switchOn');
+            Route::post('users/password/{user}','UsersController@resetPassword');
+
+
+
             //订单管理
             Route::get('orders','OrdersController@index');
             Route::post('orders','OrdersController@check');
