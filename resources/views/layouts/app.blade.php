@@ -44,7 +44,7 @@
                         @guest
 
                         @else
-                            <li class="active"><a href="/products">产品</a></li>
+                            <li class="active"><a href="products">产品</a></li>
                             <li class=""><a href="/orders">订单</a></li>
                             <li class=""><a href="/losses">损耗</a></li>
                             <li class=""><a href="/inventories">库存</a></li>
