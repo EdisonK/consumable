@@ -18,6 +18,12 @@ class CreateRoleUserTable extends Migration
             $table->integer('user_id')->commnet('用户表的id');
             $table->integer('role_id')->commnet('角色表的id');
         });
+
+        \App\Models\UserRole::create([
+            'user_id' => 1,
+            'role_id' =>1
+        ]);
+
     }
 
     /**

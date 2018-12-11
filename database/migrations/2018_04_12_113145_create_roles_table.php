@@ -18,6 +18,18 @@ class CreateRolesTable extends Migration
             $table->string('name');
             $table->timestamps();
         });
+        \App\Models\Role::create([
+            'name' => '管理员',
+        ]);
+        \App\Models\Role::create([
+            'name' => '老师',
+        ]);
+        \App\Models\Role::create([
+            'name' => '组长',
+        ]);
+        \App\Models\Role::create([
+            'name' => '学生',
+        ]);
     }
 
     /**
