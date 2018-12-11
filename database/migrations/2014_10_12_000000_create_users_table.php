@@ -22,6 +22,13 @@ class CreateUsersTable extends Migration
             $table->timestamps();
         });
 
+        \App\User::create([
+            'name' => 'vito',
+            'email' => 'vito@163.com',
+            'password' => bcrypt('Vito123456'),
+            'on' => 1
+        ]);
+
     }
 
     /**
