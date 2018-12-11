@@ -69,7 +69,7 @@
             @if (Route::has('login'))
                 <div class="top-right links">
                     @auth
-                        <a href="{{ url('/home') }}">Home</a>
+                        <a href="{{ url('products') }}">首页</a>
                     @else
                         <a href="{{ route('login') }}">登陆</a>
                         <a href="{{ route('register') }}">注册</a>
