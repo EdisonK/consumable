@@ -2,7 +2,7 @@
 @section('content')
     <div class="col-lg-9 col-md-9 col-sm-9 pull-left">
         <div class="row">
-            <a class="pull-right" href="/admin/products/{{ $product->id }}/edit">编辑</a>
+            <a class="pull-right" href="{{ url('admin/products') }}/{{ $product->id }}/edit">编辑</a>
         </div>
 
         <div class="row" style="font-size: medium; line-height: 2em">
@@ -42,7 +42,7 @@
         <div class="sidebar-module">
             <h4>导航</h4>
             <ol class="list-unstyled">
-                <li><a href="/admin/products">产品管理</a></li>
+                <li><a href="{{ url('admin/products') }}">产品管理</a></li>
                 {{--<li><a href="/projects/create">Add Project</a></li>--}}
                 {{--<li><a href="/companies">My Companies</a></li>--}}
                 {{--<li><a href="/companies/create">Create new Company</a></li>--}}

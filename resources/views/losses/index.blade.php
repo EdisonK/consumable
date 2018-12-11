@@ -50,7 +50,7 @@
                     <tbody data-total="{{ $losses['last_page'] }}" id="pages" data-current="{{ $losses['current_page'] }}">
                     @foreach($losses['data'] as $loss)
                         <tr>
-                            <td><a href="/products/{{ $loss['product_id'] }}">{{ $loss['product_name'] }}</a></td>
+                            <td><a href="{{ url('products',[$loss['product_id']]) }}">{{ $loss['product_name'] }}</a></td>
                             <td>{{ $loss['loss_count'] }}</td>
                             <td>{{ $loss['price'] }}元/{{ $loss['unit'] }}</td>
                             <td>{{ $loss['total_money'] }}元</td>
@@ -160,7 +160,7 @@
             var product_id = $("#product_id").val();
             var note = $("#loss_note").val();
 
-            var url = "/losses";
+            var url = "{{ url('losses') }}";
             $.post(url,{ loss_count : loss_count, product_id : product_id, note: note},function(result){
                 if(result.code == 0){
                     window.location.reload();
@@ -182,7 +182,7 @@
                 next: '<li class="next"><a href="javascript:void(0);">下一页</a></li>',		// 下一页的HTML样式
                 last: '<li class="last"><a href="javascript:void(0);">末页</a></li>',
                 onPageChange: function (num, type) {
-                    var url = '/losses';
+                    var url =  "{{ url('losses') }}";
                     var keyword = $('#keyword').val();
                     var creator_id = $('#creator-id').val();
                     console.log(url);
@@ -204,7 +204,7 @@
         }
 
         function search() {
-            var url = '/losses';
+            var url =  "{{ url('losses') }}";
             var keyword = $('#keyword').val();
             var creator_id = $('#creator-id').val();
             url +=  '?creator_id=' + creator_id;

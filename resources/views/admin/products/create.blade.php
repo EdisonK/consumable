@@ -123,13 +123,8 @@
         <div class="sidebar-module">
             <h4>导航</h4>
             <ol class="list-unstyled">
-                <li><a href="/admin/products">管理首页</a></li>
-            {{--<li><a href="/projects/create">Add Project</a></li>--}}
-            {{--<li><a href="/companies">My Companies</a></li>--}}
-            {{--<li><a href="/companies/create">Create new Company</a></li>--}}
-            {{--<br/>--}}
-            {{--<li><a href="/companies/create">Create new Company</a></li>--}}
-            {{--</ol>--}}
+                <li><a href="{{ url('admin/products') }}">管理首页</a></li>
+            </ol>
 
         </div>
 
@@ -150,7 +145,7 @@
         })
 
         function cancel() {
-            window.location.href = '/admin/warehouses';
+            window.location.href = "{{ url('admin/warehouses') }}";
         }
 
         function saveProduct() {
@@ -165,7 +160,7 @@
             var model_type = $('#model_type').val();
             var category_id = $('#category_name').val();
             var description = $('#description').val();
-            var url = '/admin/products';
+            var url = "{{ url('admin/products') }}";
 
             if(!category_id){
                 alert('第三类别的id不能为空');
@@ -187,7 +182,7 @@
 
             $.post(url,data,function (result) {
                 if(result.code == 0){
-                    window.location.href = '/admin/products';
+                    window.location.href = url;
                 }else{
                     alert('保存失败');
                 }
@@ -212,7 +207,7 @@
             if(!category_id){
                 return;
             }
-            var url = "/admin/classes/category/"+category_id;
+            var url = "{{ url('admin/classes/category') }}"+'/'+category_id;
             $.get(url,function(result){
                 if(result.code == 0){
                     var classe = result.data.classe;
@@ -231,7 +226,7 @@
                 $('#class_name').append(class_option);
                 return;
             }
-            var url = "/admin/classes/"+warehous_id;
+            var url ="{{ url('admin/classes') }}"+'/'+warehous_id;
             $.get(url,function(result){
                 if(result.code == 0){
                     var classes = result.data.classes;
@@ -255,7 +250,7 @@
                 $('#category_name').append(category_option);
                 return;
             }
-            var url = "/admin/categories/"+warehous_id;
+            var url ="{{ url('admin/categories') }}"+'/'+warehous_id;
             $.get(url,function(result){
                 if(result.code == 0){
                     var categories = result.data.categories;
@@ -280,7 +275,7 @@
                 $('#category_name').append(category_option);
                 return;
             }
-            var url = "/admin/categories/class/"+class_id;
+            var url ="{{ url('admin/categories/class') }}"+'/'+class_id;
             $.get(url,function(result){
                 if(result.code == 0){
                     var categories = result.data.categories;

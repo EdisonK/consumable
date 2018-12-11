@@ -145,7 +145,7 @@
             //添加这个用户的角色
             var roles = $("#roles").val();
             var uid = $(this).attr('alt');
-            var url = "/admin/users/roles/"+uid;
+            var url = "{{ url('') }}"+"/admin/users/roles/"+uid;
             $.post(url,{ roles : roles},function(result){
                 if(result.code == 0){
                     window.location.href = '/admin/users';
@@ -161,7 +161,7 @@
                 alert('请传入用户的id');
                 return;
             }
-            var url = '/admin/users/password/'+user_id;
+            var url =  "{{ url('') }}"+'/admin/users/password/'+user_id;
             $.post(url,{},function (res) {
                 if(res.code == 0){
                     alert('您的密码已经重置，密码为：123456');
@@ -180,7 +180,7 @@
                 alert('请传入用户的id');
                 return;
             }
-            var url = '/admin/users/on/'+user_id;
+            var url =  "{{ url('') }}"+'/admin/users/on/'+user_id;
             $.post(url,{'flag':flag},function (res) {
                 if(res.code == 0){
                     window.location.href = '/admin/users';
@@ -205,7 +205,7 @@
                 next: '<li class="next"><a href="javascript:void(0);">下一页</a></li>',		// 下一页的HTML样式
                 last: '<li class="last"><a href="javascript:void(0);">末页</a></li>',
                 onPageChange: function (num, type) {
-                    var url = '/admin/users';
+                    var url =  "{{ url('') }}"+'/admin/users';
                     var keyword = $('#keyword').val();
                     console.log(url);
                     url +=  '?page='+num;
@@ -223,7 +223,7 @@
         }
 
         function search() {
-            var url = '/admin/users';
+            var url =  "{{ url('') }}"+'/admin/users';
             var keyword = $('#keyword').val();
             if(keyword){
                 url +=  '?keyword=' + keyword;

@@ -63,7 +63,7 @@
                     @foreach($orders['data'] as $order)
                         <tr>
                             <td><input type="checkbox" @if($order['checker_id']) disabled @endif value="{{  $order['id'] }}"></td>
-                            <td><a href="/admin/products/{{ $order['product_id'] }}">{{ $order['product_name'] }}</a></td>
+                            <td><a href="{{ url('admin/products',[$order['product_id']]) }}">{{ $order['product_name'] }}</a></td>
                             <td>{{ $order['count'] }}</td>
                             <td>{{ $order['price'] }}元/{{ $order['unit'] }}</td>
                             <td>{{ $order['total_money'] }}元</td>
@@ -152,7 +152,7 @@
                 alert('请至少选择一项');
                 return;
             }
-            var url = '/admin/orders';
+            var url = '{{ url('admin/orders') }}';
             console.log(arr);
 
             $.post(url,{'flag':flag,'order_ids':arr},function (res) {
@@ -173,7 +173,7 @@
                 alert('请至少选择一项');
                 return;
             }
-            var url = '/admin/orders';
+            var url = '{{ url('admin/orders') }}';
             $.post(url,{'flag':flag,'order_ids':arr},function (res) {
                 if(res.code == 0){
                     window.location.href = url;
@@ -195,7 +195,7 @@
                 next: '<li class="next"><a href="javascript:void(0);">下一页</a></li>',		// 下一页的HTML样式
                 last: '<li class="last"><a href="javascript:void(0);">末页</a></li>',
                 onPageChange: function (num, type) {
-                    var url = '/admin/orders';
+                    var url = '{{ url('admin/orders') }}';
                     var keyword = $('#keyword').val();
                     var date_from = $('#date_from').val();
                     var date_to = $('#date_to').val();
@@ -221,7 +221,7 @@
         }
 
         function search() {
-            var url = '/admin/orders';
+            var url = '{{ url('admin/orders') }}';
             var keyword = $('#keyword').val();
             var date_from = $('#date_from').val();
             var date_to = $('#date_to').val();

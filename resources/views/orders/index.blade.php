@@ -61,7 +61,6 @@
                     @foreach($orders['data'] as $order)
                         <tr>
                             <td><input type="checkbox"  @if(($order['check_status_id'] != 1) || $order['confirm_id'])) disabled @endif  value="{{  $order['id'] }}"></td>
-                            {{--<td><a href="/products/{{ $order['product_id'] }}">{{ $order['product_name'] }}</a></td>--}}
                             <td><a href="{{ url('products',[$order['product_id']]) }}">{{ $order['product_name'] }}</a></td>
                             <td>{{ $order['count'] }}</td>
                             <td>{{ $order['price'] }}元/{{ $order['unit'] }}</td>
@@ -133,7 +132,7 @@
                 alert('请至少选择一项');
                 return;
             }
-            var url = "{{ url('/orders/batch') }}";
+            var url = "{{ url('orders/batch') }}";
             $.post(url,{'order_ids':arr},function (res) {
                 if(res.code == 0){
                     window.location.href = "{{ url('/orders') }}";
@@ -156,7 +155,7 @@
                 next: '<li class="next"><a href="javascript:void(0);">下一页</a></li>',		// 下一页的HTML样式
                 last: '<li class="last"><a href="javascript:void(0);">末页</a></li>',
                 onPageChange: function (num, type) {
-                    var url = "{{ url('/orders') }}";
+                    var url = "{{ url('orders') }}";
                     var keyword = $('#keyword').val();
                     var date_from = $('#date_from').val();
                     var date_to = $('#date_to').val();
@@ -182,7 +181,7 @@
         }
 
         function search() {
-            var url = "{{ url('/orders') }}";
+            var url = "{{ url('orders') }}";
             var keyword = $('#keyword').val();
             var date_from = $('#date_from').val();
             var date_to = $('#date_to').val();

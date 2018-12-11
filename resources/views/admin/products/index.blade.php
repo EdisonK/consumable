@@ -93,7 +93,7 @@
                     <tbody data-total="{{ $products->lastPage() }}" id="pages" data-current="{{ $products->currentPage() }}">
                     @foreach($products as $product)
                         <tr>
-                            <td><a href="/admin/products/{{ $product->id }}">{{ $product->name }}</a></td>
+                            <td><a href="{{ url('admin/products',[ $product->id ]) }}">{{ $product->name }}</a></td>
                             <td>{{ $product->chinese_name }}</td>
                             <td>{{ $product->english_name }}</td>
                             <td>{{ $product->cas }}</td>
@@ -232,7 +232,7 @@
                 dangerMode: true,
             }).then(function (value) {
                 if(value){
-                    var url = "/admin/products/"+product_id;
+                    var url = "{{ url('admin/products') }}"+"/"+product_id;
                     $.ajax({
                         url: url,
                         type: 'DELETE',
@@ -260,7 +260,7 @@
                 next: '<li class="next"><a href="javascript:void(0);">下一页</a></li>',		// 下一页的HTML样式
                 last: '<li class="last"><a href="javascript:void(0);">末页</a></li>',
                 onPageChange: function (num, type) {
-                    var url = '/admin/products';
+                    var url = "{{ url('admin/products') }}";
                     var keyword = $('#keyword').val();
                     console.log(url);
                     url +=  '?page='+num;
@@ -280,7 +280,7 @@
 
 
         function search() {
-            var url = '/admin/products';
+            var url = "{{ url('admin/products') }}";
             var keyword = $('#keyword').val();
             if(keyword){
                 url +=  '?keyword=' + keyword;
@@ -299,7 +299,7 @@
                 dangerMode: true,
             }).then(function (value) {
                 if(value){
-                    var url = "/admin/warehouses/"+warehouse_id;
+                    var url = "{{ url('admin/warehouses') }}"+"/"+warehouse_id;
                     $.ajax({
                         url: url,
                         type: 'DELETE',
@@ -325,7 +325,7 @@
                 dangerMode: true,
             }).then(function (value) {
                 if(value){
-                    var url = "/admin/classes/"+class_id;
+                    var url = "{{ url('admin/classes') }}"+"/"+class_id;
                     $.ajax({
                         url: url,
                         type: 'DELETE',
@@ -351,7 +351,7 @@
                 dangerMode: true,
             }).then(function (value) {
                 if(value){
-                    var url = "/admin/categories/"+category_id;
+                    var url = "{{ url('admin/categories') }}"+"/"+category_id;
                     $.ajax({
                         url: url,
                         type: 'DELETE',
@@ -440,7 +440,7 @@
             if($(this).hasClass('add_warehouse')){
                 //添加仓库
                 var name = $("#warehouse_name").val();
-                var url = "/admin/warehouses";
+                var url = "{{ url('admin/warehouses') }}";
 
                 $.post(url,{name:name},function(result){
                     if(result.code == 0){
@@ -455,7 +455,7 @@
                 //更新仓库
                 var name = $("#warehouse_name").val();
                 var warehouse_id = $("#warehouse_name").attr('alt');
-                var url = "/admin/warehouses/"+warehouse_id;
+                var url = "{{ url('admin/warehouses') }}"+"/"+warehouse_id;
 
                 $.post(url,{name:name},function(result){
                     if(result.code == 0){
@@ -474,7 +474,7 @@
                 //添加二级分类
                 var name = $("#class_name").val();
                 var warehouse_id = $("#class_name").attr('walt');
-                var url = "/admin/classes";
+                var url = "{{ url('admin/classes') }}";
 
                 $.post(url,{ name: name, warehouse_id: warehouse_id },function(result){
                     if(result.code == 0){
@@ -489,7 +489,7 @@
                 //更新二级分类
                 var name = $("#class_name").val();
                 var class_id = $("#class_name").attr('alt');
-                var url = "/admin/classes/"+class_id;
+                var url = "{{ url('admin/classes') }}"+"/"+class_id;
 
                 $.post(url,{name:name},function(result){
                     if(result.code == 0){
@@ -509,7 +509,7 @@
                 //添加三级分类
                 var name = $("#category_name").val();
                 var class_id = $("#category_name").attr('calt');
-                var url = "/admin/categories";
+                var url = "{{ url('admin/categories') }}";
 
                 $.post(url,{ name: name, class_id: class_id },function(result){
                     if(result.code == 0){
@@ -524,7 +524,7 @@
                 //更新三级分类
                 var name = $("#category_name").val();
                 var category_id = $("#category_name").attr('alt');
-                var url = "/admin/categories/"+category_id;
+                var url = "{{ url('admin/categories') }}"+"/"+category_id;
 
                 $.post(url,{name:name},function(result){
                     if(result.code == 0){

@@ -65,10 +65,10 @@
                 return;
             }
 
-            var url = "/users/reset/"+user_id;
+            var url = "{{ url('') }}"+"/users/reset/"+user_id;
             $.post(url,{ password : password},function(result){
                 if(result.code == 0){
-                    window.location.href = '/orders';
+                    window.location.href =  "{{ url('orders') }}";
                 }else{
                     alert(result.message);
                 }
