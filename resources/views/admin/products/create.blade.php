@@ -145,7 +145,7 @@
         })
 
         function cancel() {
-            window.location.href = "{{ url('admin/warehouses') }}";
+            window.location.href = "{{ url('admin/products') }}";
         }
 
         function saveProduct() {
