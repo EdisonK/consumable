@@ -64,7 +64,7 @@
             <div class="col-lg-8">
                 <!-- Single button -->
                 <div class="btn-group" role="group" aria-label="...">
-                    <button type="button" class="btn btn-primary" onclick="window.location.href='/admin/products/create'">添加产品</button>
+                    <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url('admin/products/create') }}'">添加产品</button>
                 </div>
             </div><!-- /.col-lg-6 -->
             <div class="col-lg-4">
