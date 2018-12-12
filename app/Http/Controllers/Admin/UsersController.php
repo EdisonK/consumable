@@ -84,7 +84,7 @@ class UsersController extends Controller
             $user->roles()->detach();
             foreach ($roles as $key => $role){
                 $row = Role::where('name',$role)->first();
-                if(!count($row)){
+                if(is_null($row)){
                     continue;
                 }
                 $user->roles()->attach($row);
