@@ -76,17 +76,5 @@
         }
 
 
-
-
-        function search() {
-            var url = 'products';
-            var keyword = $('#keyword').val();
-            if(keyword){
-                url +=  '?keyword=' + keyword;
-            }
-            window.location.href = url;
-
-        }
-
     </script>
 @endpush
