@@ -10,8 +10,8 @@
     {{--</div>--}}
     {{--</div>--}}
     <div class="col-sm-12 col-md-12 col-lg-12 pull-right">
-            <a class="btn btn-primary">总库存</a>
-            <a class="btn btn-default" href="{{ url('private-inventories') }}">我的库存</a>
+        <a class="btn btn-default"  href="{{ url('inventories') }}">总库存</a>
+        <a class="btn btn-primary">我的库存</a>
         <div class="row">
             <div class="col-lg-8 col-md-8">
 
@@ -91,7 +91,7 @@
                 next: '<li class="next"><a href="javascript:void(0);">下一页</a></li>',		// 下一页的HTML样式
                 last: '<li class="last"><a href="javascript:void(0);">末页</a></li>',
                 onPageChange: function (num, type) {
-                    var url = '{{ url('inventories') }}';
+                    var url = '{{ url('private-inventories') }}';
                     var keyword = $('#keyword').val();
                     console.log(url);
                     url +=  '?page='+num;
@@ -109,7 +109,7 @@
         }
 
         function search() {
-            var url = '{{ url('inventories') }}';
+            var url = '{{ url('private-inventories') }}';
             var keyword = $('#keyword').val();
             if(keyword){
                 url +=  '?keyword=' + keyword;

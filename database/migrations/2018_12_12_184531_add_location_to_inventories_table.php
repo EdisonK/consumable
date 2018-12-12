@@ -25,7 +25,7 @@ class AddLocationToInventoriesTable extends Migration
     public function down()
     {
         Schema::table('inventories', function (Blueprint $table) {
-            //
+            $table->dropColumn('location');
         });
     }
 }

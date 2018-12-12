@@ -116,6 +116,7 @@ class OrdersController extends Controller
                 $productId = $order->product_id;
                 $count = $order->count;
                 $useId = $order->use_id;
+                $creatorId = $order->creator_id;
 
                 //作个区分如果是私人使用则进入私人仓库，如果公用则进入公用仓库
                 if($useId == 1){
@@ -132,13 +133,16 @@ class OrdersController extends Controller
 
                 }else if($useId == 2){
                     //私人仓库
-                    $privateInventory = PrivateInventory::where('product_id',$productId)->first();
+                    $privateInventory = PrivateInventory::where('product_id',$productId)
+                        ->where('create_id', $creatorId)
+                        ->first();
                     if(count($privateInventory)){
                         $privateInventory->increment('total_count', $count);
                     }else{
                         PrivateInventory::create([
                             'product_id' => $productId,
-                            'total_count' => $count
+                            'total_count' => $count,
+                            'create_id' => $creatorId
                         ]);
                     }
                 }

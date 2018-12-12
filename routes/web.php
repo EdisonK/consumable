@@ -48,6 +48,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     //库存
     Route::get('inventories','InventoriesController@index');
+    Route::get('private-inventories','PrivateInventoriesController@index');
 
     //用户自己重新设置密码
     Route::post('users/reset/{user}','UsersController@reset');
