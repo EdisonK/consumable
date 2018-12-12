@@ -55,6 +55,12 @@
                 <div class="modal-body">
                     <input class="form-control" placeholder="请输入需要的数量" id="order_count">
                     <br>
+                    <select class="form-control" id="use">
+                        @foreach($uses as $use)
+                            <option value="{{ $use->id }}">{{ $use->name }}</option>
+                        @endforeach
+                    </select>
+                    <br>
                     <textarea placeholder="请填写备注"
                               style="resize: vertical"
                               id="order_note"
@@ -93,11 +99,12 @@
         function saveOrderModel() {
             //添加订单
             var count = $("#order_count").val();
+            var use_id = $("#use").val();
             var note = $("#order_note").val();
             var product_id = $(this).attr('alt');
 
-            var url = "/orders";
-             $.post(url,{ count : count, product_id : product_id, note: note},function(result){
+            var url = "{{ url('orders') }}";
+             $.post(url,{ count : count, product_id : product_id,use_id: use_id, note: note},function(result){
                  if(result.code == 0){
                      window.location.reload();
                  }else{

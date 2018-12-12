@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Company;
 use App\Models\Product;
+use App\Models\UseModel;
 use Illuminate\Http\Request;
 
 class ProductsController extends Controller
@@ -68,6 +69,7 @@ class ProductsController extends Controller
             'category' => $product->category,
             'class' =>  $product->category->productClass,
             'warehouse' =>  $product->category->productClass->warehouse,
+            'uses' => UseModel::all()
         ];
         return view('products.show', $data);
     }

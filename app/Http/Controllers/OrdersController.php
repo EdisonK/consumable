@@ -148,13 +148,15 @@ class OrdersController extends Controller
     {
         $this->validate($request,[
             'count' => 'required|integer|min:1',
+            'use_id' => 'required|integer|exists:use,id',
             'product_id' => 'required|integer|exists:products,id',
         ]);
         Order::create([
             'product_id' => $request->product_id,
             'count' => $request->count,
             'note' => $request->note,
-            'creator_id' => auth()->id()
+            'creator_id' => auth()->id(),
+            'use_id' => $request->use_id
         ]);
         return $this->success('添加成功');
     }
