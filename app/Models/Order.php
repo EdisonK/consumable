@@ -36,4 +36,11 @@ class Order extends Model
         return $this->belongsTo(User::class, 'confirm_id', 'id');
     }
 
+    public function useName()
+    {
+        return $this->belongsTo(UseModel::class, 'use_id', 'id');
+    }
+
+
+
 }

@@ -30,7 +30,7 @@ class OrdersController extends Controller
         $date_from = $request->date_from ? Carbon::parse($request->date_from)->toDateTimeString() : Carbon::now()->startOfMonth()->toDateTimeString();
         $date_to = $request->date_to ? Carbon::parse($request->date_to)->endOfDay()->toDateTimeString() : Carbon::now()->endOfDay()->toDateTimeString();
 
-        $query = Order::with(['product','creator','checker','checkStatus','confirmer']);
+        $query = Order::with(['product','creator','checker','checkStatus','confirmer','useName']);
         $query->where('created_at','>=',$date_from);
         $query->where('created_at','<=',$date_to);
         if($keyword = $request->keyword){
@@ -74,6 +74,7 @@ class OrdersController extends Controller
                 'confirm_name' =>  $order->confirmer ? $order->confirmer->name : null,
                 'confirmed_note' =>  $order->confirmed_note,
                 'confirmed_at' =>  $order->confirmed_at,
+                'use_name' =>  $order->useName ? $order->useName->name : null,
             ];
         })->toArray()]);
         $data = [

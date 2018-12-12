@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Inventory;
 use App\Models\Order;
+use App\Models\PrivateInventory;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -28,7 +29,7 @@ class OrdersController extends Controller
 //        $perPage = 1;
         $date_from = $request->date_from ? Carbon::parse($request->date_from)->toDateTimeString() : Carbon::now()->startOfMonth()->toDateTimeString();
         $date_to = $request->date_to ? Carbon::parse($request->date_to)->endOfDay()->toDateTimeString() : Carbon::now()->endOfDay()->toDateTimeString();
-        $query = Order::with(['product','creator','checker','checkStatus','confirmer']);
+        $query = Order::with(['product','creator','checker','checkStatus','confirmer','useName']);
         $query->where('created_at','>=',$date_from);
         $query->where('created_at','<=',$date_to);
         if($keyword = $request->keyword){
@@ -73,6 +74,7 @@ class OrdersController extends Controller
                 'confirm_name' =>  $order->confirmer ? $order->confirmer->name : null,
                 'confirmed_note' =>  $order->confirmed_note,
                 'confirmed_at' =>  $order->confirmed_at,
+                'use_name' =>  $order->useName ? $order->useName->name : null,
             ];
         })->toArray()]);
 
@@ -113,15 +115,32 @@ class OrdersController extends Controller
                 $order->save();
                 $productId = $order->product_id;
                 $count = $order->count;
+                $useId = $order->use_id;
 
-                $inventory = Inventory::where('product_id',$productId)->first();
-                if(count($inventory)){
-                    $inventory->increment('total_count', $count);
-                }else{
-                    Inventory::create([
-                        'product_id' => $productId,
-                        'total_count' => $count
-                    ]);
+                //作个区分如果是私人使用则进入私人仓库，如果公用则进入公用仓库
+                if($useId == 1){
+                    //公用
+                    $inventory = Inventory::where('product_id',$productId)->first();
+                    if(count($inventory)){
+                        $inventory->increment('total_count', $count);
+                    }else{
+                        Inventory::create([
+                            'product_id' => $productId,
+                            'total_count' => $count
+                        ]);
+                    }
+
+                }else if($useId == 2){
+                    //私人仓库
+                    $privateInventory = PrivateInventory::where('product_id',$productId)->first();
+                    if(count($privateInventory)){
+                        $privateInventory->increment('total_count', $count);
+                    }else{
+                        PrivateInventory::create([
+                            'product_id' => $productId,
+                            'total_count' => $count
+                        ]);
+                    }
                 }
             });
         }

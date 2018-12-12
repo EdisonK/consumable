@@ -68,7 +68,7 @@
                             <td>{{ $order['price'] }}元/{{ $order['unit'] }}</td>
                             <td>{{ $order['total_money'] }}元</td>
                             <td>
-                                {{ $order['creator_name'] }}
+                                {{ $order['creator_name'] }}「{{ $order['use_name'] }}」
                                 <p>{{ $order['created_at'] }}</p>
                             </td>
                             <td>{{ $order['check_status_name'] }}</td>

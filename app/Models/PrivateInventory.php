@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class PrivateInventories extends Model
+class PrivateInventory extends Model
 {
     protected $table = 'private_inventories';
 
