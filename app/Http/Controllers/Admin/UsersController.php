@@ -34,13 +34,13 @@ class UsersController extends Controller
                 'name' => $user->name,
                 'email' => $user->email,
                 'created_at' => $user->created_at,
-                'roles' => $user->roles,
                 'on' => $user->on
             ];
         })->toArray()]);
         $data = [
             'users' => $userArr,
-            'keyword' => $keyword ? $keyword : null
+            'keyword' => $keyword ? $keyword : null,
+            'roles' => Role::all(),
         ];
         return view('admin.users.index',$data);
 

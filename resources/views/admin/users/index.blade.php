@@ -85,7 +85,7 @@
                 </div>
                 <div class="modal-body">
                     <select class="js-example-basic-multiple" name="states[]" multiple="multiple" style="width: 100%" id="roles">
-                        @foreach($user['roles'] as $role)
+                        @foreach($roles as $role)
                             <option value="{{ $role->name }}">{{ $role->name }}</option>
                         @endforeach
                     </select>
@@ -148,7 +148,7 @@
             var url = "{{ url('') }}"+"/admin/users/roles/"+uid;
             $.post(url,{ roles : roles},function(result){
                 if(result.code == 0){
-                    window.location.href = '/admin/users';
+                    window.location.href = "{{ url('') }}"+'/admin/users';
                 }else{
                     alert(result.message);
                 }
@@ -165,7 +165,7 @@
             $.post(url,{},function (res) {
                 if(res.code == 0){
                     alert('您的密码已经重置，密码为：123456');
-                    window.location.href = '/admin/users';
+                    window.location.href = "{{ url('') }}"+'/admin/users';
                 }else{
                     alert(res.message);
                 }
@@ -183,7 +183,7 @@
             var url =  "{{ url('') }}"+'/admin/users/on/'+user_id;
             $.post(url,{'flag':flag},function (res) {
                 if(res.code == 0){
-                    window.location.href = '/admin/users';
+                    window.location.href = "{{ url('') }}"+'/admin/users';
                 }else{
                     alert(res.message);
                 }
