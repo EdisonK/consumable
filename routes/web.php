@@ -48,6 +48,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     //库存
     Route::get('inventories','InventoriesController@index');
+    Route::post('inventories/location/{inventory}','InventoriesController@updateLocation');
     Route::get('private-inventories','PrivateInventoriesController@index');
     Route::post('private-inventories/location/{privateInventory}','PrivateInventoriesController@updateLocation');
 

@@ -50,6 +50,22 @@ class InventoriesController extends Controller
         return view('inventories.index',$data);
     }
 
+
+    public function updateLocation(Request $request,Inventory $inventory)
+    {
+        $this->validate($request,[
+            'location' => 'nullable|string'
+        ]);
+        $inventory->location = $request->location;
+        $res = $inventory->save();
+        if($res){
+            return $this->success('成功');
+        }else{
+            return $this->fail('失败');
+        }
+
+    }
+
     /**
      * Show the form for creating a new resource.
      *

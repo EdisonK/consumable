@@ -48,7 +48,10 @@
                         <tr>
                             <td><a href="/products/{{ $inventory['product_id'] }}">{{ $inventory['product_name'] }}</a></td>
                             <td>{{ $inventory['total_count'] }}</td>
-                            <td>{{ $inventory['location'] }}</td>
+                            <td>
+                                {{ $inventory['location'] }}
+                                <span aria-hidden="true" class="glyphicon glyphicon-edit location-edit" alt="{{ $inventory['location'] }}" iid="{{ $inventory['id'] }}"></span>
+                            </td>
                             <td>{{ $inventory['price'] }}元/{{ $inventory['unit'] }}</td>
                             <td>{{ $inventory['total_money'] }}元</td>
                         </tr>
@@ -66,10 +69,34 @@
     </div>
 @endsection
 
+<!-- 添加Modal -->
+<div class="modal fade" id="myLocationModal" tabindex="-1" role="dialog" aria-labelledby="myLocationModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myLocationModalLabel">位置</h4>
+            </div>
+            <div class="modal-body">
+                <input class="form-control" value="" id="location">
+                <br>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" alt id="save">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @push('scripts')
     <script>
         $(function () {
             $('#search').bind('click', search);
+            $('.location-edit').bind('click', showLocationModel);
+            $('#save').bind('click', saveLocationModel);
             init();
             //敲回车搜索
             $('#keyword').keyup(function (e) {
@@ -78,6 +105,28 @@
                 }
             });
         });
+
+        function showLocationModel() {
+            $('#myLocationModal').modal('show');
+            var location = $(this).attr('alt');
+            var iid = $(this).attr('iid');
+            $('#save').attr('alt',iid);
+            $('#location').val(location);
+        }
+
+        function saveLocationModel() {
+            //添加修改这个药品的位置
+            var location = $("#location").val();
+            var iid = $(this).attr('alt');
+            var url = "{{ url('') }}"+"/inventories/location/"+iid;
+            $.post(url,{ location : location},function(result){
+                if(result.code == 0){
+                    window.location.href = "{{ url('') }}"+'/inventories';
+                }else{
+                    alert(result.message);
+                }
+            });
+        }
 
 
 
