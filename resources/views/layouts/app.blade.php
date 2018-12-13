@@ -46,9 +46,13 @@
                         @else
                             <li class="active"><a href="{{ url('products') }}">产品</a></li>
                             <li class=""><a href="{{ url('orders') }}">订单</a></li>
-                            <li class=""><a href="{{ url('losses') }}">损耗</a></li>
-                            <li class=""><a href="{{ url('inventories') }}">库存</a></li>
-                            <li class=""><a href="#">数据统计</a></li>
+                            <li><a href="{{ url('inventories') }}">库存</a></li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">附加功能<span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{ url('statistics') }}">数据统计</a></li>
+                                    <li class=""><a href="{{ url('losses') }}">损耗</a></li>
+                                </ul>
                             @if(auth()->user()->isAdmin() )
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">后台管理<span class="caret"></span></a>
