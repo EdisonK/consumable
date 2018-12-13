@@ -37,6 +37,7 @@
                     <tr>
                         <th>产品名</th>
                         <th>数量</th>
+                        <th>位置</th>
                         <th>单价</th>
                         <th>费用</th>
 
@@ -47,6 +48,7 @@
                         <tr>
                             <td><a href="/products/{{ $inventory['product_id'] }}">{{ $inventory['product_name'] }}</a></td>
                             <td>{{ $inventory['total_count'] }}</td>
+                            <td>{{ $inventory['location'] }}</td>
                             <td>{{ $inventory['price'] }}元/{{ $inventory['unit'] }}</td>
                             <td>{{ $inventory['total_money'] }}元</td>
                         </tr>

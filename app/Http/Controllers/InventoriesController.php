@@ -39,6 +39,7 @@ class InventoriesController extends Controller
                 'price' => $inventory->product ? $inventory->product->price : 0,
                 'unit' => $inventory->product ? $inventory->product->unit : null,
                 'total_money' => ($inventory->product ? $inventory->product->price : 0) * $inventory->total_count,
+                'location' => $inventory->location,
             ];
         })->toArray()]);
 

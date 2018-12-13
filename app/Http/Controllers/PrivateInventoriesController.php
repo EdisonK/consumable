@@ -34,6 +34,7 @@ class PrivateInventoriesController extends Controller
                 'price' => $inventory->product ? $inventory->product->price : 0,
                 'unit' => $inventory->product ? $inventory->product->unit : null,
                 'total_money' => ($inventory->product ? $inventory->product->price : 0) * $inventory->total_count,
+                'location' => $inventory->location,
             ];
         })->toArray()]);
 
@@ -42,5 +43,19 @@ class PrivateInventoriesController extends Controller
             'keyword' => $keyword ? $keyword : null,
         ];
         return view('privateInventories.index',$data);
+    }
+
+    public function updateLocation(Request $request,PrivateInventory $privateInventory)
+    {
+        $this->validate($request,[
+            'location' => 'nullable|string'
+        ]);
+        $privateInventory->location = $request->location;
+        $res = $privateInventory->save();
+        if($res){
+            return $this->success('成功');
+        }else{
+            return $this->fail('失败');
+        }
     }
 }
