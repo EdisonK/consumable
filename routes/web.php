@@ -45,6 +45,7 @@ Route::group(['middleware' => ['auth']], function () {
     //损耗
     Route::get('losses','LossesController@index');
     Route::post('losses','LossesController@store');
+    Route::post('losses/checker/{loss}','LossesController@checkerLoss');
 
     //库存
     Route::get('inventories','InventoriesController@index');

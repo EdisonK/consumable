@@ -72,7 +72,7 @@
                             </td>
                             <td>{{ $loss['note'] }}</td>
                             <td>
-                                <button class="btn btn-danger btn-xs">审核</button>
+                                <button class="btn btn-danger btn-xs checker" alt="{{ $loss['id'] }}">审核</button>
                             </td>
 
                         </tr>
@@ -143,6 +143,9 @@
             $('#add_loss').bind('click', showLossModel);
             $('#loss_save').bind('click', saveLossModel);
 
+
+            $('.checker').bind('click', checker);
+
             $('#product_id').on('change', changeCount);
 
             init();
@@ -159,6 +162,19 @@
         function changeCount() {
             // console.log($('#product_id:selected').attr('alt'));
             // $('#loss_count').attr('alt',$(this).attr('alt'));
+        }
+
+        function checker() {
+            var loss_id = $(this).attr('alt');
+            var url = "{{ url('') }}"+'/losses/checker/'+loss_id;
+            $.post(url,{},function(result){
+                if(result.code == 0){
+                    window.location.reload();
+                }else{
+                    alert(result.message);
+                }
+            });
+
         }
 
 

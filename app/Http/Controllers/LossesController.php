@@ -6,6 +6,7 @@ use App\Models\Inventory;
 use App\Models\Loss;
 use App\Models\PrivateInventory;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -95,58 +96,69 @@ class LossesController extends Controller
             'flag' => 'required|integer',
         ]);
         $userId = auth()->id();
-
+        $lossCount = $request->loss_count;
 
         if($request->flag == 1){
-            $inventory = Inventory::find($request->inv_id);
             //表示公用的损耗
+            $inventory = Inventory::find($request->inv_id);
+            if($inventory->total_count <= $lossCount){
+                $lossCount = $inventory->total_count;
+            }
             Loss::create([
                 'inventory_id' => $request->inv_id,
                 'product_id' => $inventory->product_id,
-                'loss_count' => $request->loss_count,
+                'loss_count' => $lossCount,
                 'note' => $request->note,
                 'creator_id' =>  $userId
             ]);
-
         }elseif($request->flag == 2){
+            //表示私用损耗
             $privateInventory = PrivateInventory::find($request->inv_id);
+            if($privateInventory->total_count <= $lossCount){
+                $lossCount = $privateInventory->total_count;
+            }
             Loss::create([
                 'private_inventory_id' => $request->inv_id,
                 'product_id' => $privateInventory->product_id,
-                'loss_count' => $request->loss_count,
+                'loss_count' => $lossCount,
                 'note' => $request->note,
                 'creator_id' =>  $userId
             ]);
         }
-//
-//        DB::transaction(function () use ($request,$userId) {
-//            Loss::create([
-//                'inventory_id' => $request->inv_id,
-//                'product_id' => $request->product_id,
-//                'loss_count' => $request->loss_count,
-//                'note' => $request->note,
-//                'creator_id' =>  $userId
-//            ]);
-//            $productId = $request->product_id;
-//            $lossCount = $request->loss_count;
-//            $inventory = Inventory::where('product_id',$productId)->first();
-//            if(count($inventory)){
-//                if($inventory->total_count <= $lossCount){
-//                    $inventory->total_count = 0;
-//                    $inventory->save();
-//                }else{
-//                    $inventory->decrement('total_count', $lossCount);
-//                }
-//            }else{
-//                Inventory::create([
-//                    'product_id' => $productId,
-//                    'total_count' => 0
-//                ]);
-//            }
-//        });
+
 
         return $this->success('成功');
     }
+
+
+     public function checkerLoss(Request $request,Loss $loss)
+     {
+         $userId = auth()->id();
+         DB::transaction(function () use ($request,$userId,$loss) {
+             $loss->checker_id = $userId;
+             $loss->checked_at = Carbon::now();
+             $loss->save();
+             if($loss->inventory_id){
+                 //审核公共库的
+                 $inventory = $loss->inventory;
+                 if($inventory->total_count <= $loss->loss_count){
+                     $inventory->decrement('total_count', $inventory->total_count);
+                 }else{
+                     $inventory->decrement('total_count', $loss->loss_count);
+                 }
+             }elseif($loss->private_inventory_id){
+                 //审核私人库
+                 $privateInventory = $loss->privateInventory;
+                 if($privateInventory->total_count <= $loss->loss_count){
+                     $privateInventory->decrement('total_count', $privateInventory->total_count);
+                 }else{
+                     $privateInventory->decrement('total_count', $loss->loss_count);
+                 }
+             }
+        });
+
+         return $this->success('审核成功');
+     }
 
     /**
      * Display the specified resource.
