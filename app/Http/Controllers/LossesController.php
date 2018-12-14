@@ -54,7 +54,7 @@ class LossesController extends Controller
                 'checked_at' => $loss->checked_at,
                 'checker_id' => $loss->checker_id,
                 'checker_name' => $loss->checker ? $loss->checker->name : null,
-                'use_name' => count($loss->inventory) ? '公用' : '自用',
+                'use_name' => $loss->inventory ? '公用' : '自用',
             ];
         })->toArray()]);
 
