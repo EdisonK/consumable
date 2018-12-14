@@ -49,7 +49,7 @@
                             <td>{{ $product->english_name }}</td>
                             <td>{{ $product->cas }}</td>
                             <td>{{ $product->molecular_formula }}</td>
-                            <td>{{ $product->brand->name }}</td>
+                            <td>{{ $product->brand ?  $product->brand->name : null }}</td>
                             <td>{{ $product->price }}元/{{ $product->unit }}</td>
                             <td>{{ $product->model_type }}</td>
                         </tr>
