@@ -44,7 +44,7 @@
                     <tbody data-total="{{ $products->lastPage() }}" id="pages" data-current="{{ $products->currentPage() }}">
                     @foreach($products as $product)
                         <tr>
-                            <td><a href="/products/{{ $product->id }}">{{ $product->name }}</a></td>
+                            <td><a href="{{ url('products') }}/{{ $product->id }}">{{ $product->name }}</a></td>
                             <td>{{ $product->chinese_name }}</td>
                             <td>{{ $product->english_name }}</td>
                             <td>{{ $product->cas }}</td>
