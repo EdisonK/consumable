@@ -22,7 +22,7 @@
                 <label>分子式:</label> <span>{{ $product->molecular_formula }}</span>
             </div>
             <div class="col-md-4">
-                <label>品牌:</label> <span>{{ $product->brand->name }}</span>
+                <label>品牌:</label> <span>{{ $product->brand ? $product->brand->name : null }}</span>
             </div>
             <div class="col-md-4">
                 <label>单价:</label> <span>{{ $product->price }}/{{ $product->unit }}</span>
