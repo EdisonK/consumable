@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Inventory;
 use App\Models\Loss;
+use App\Models\PrivateInventory;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -83,36 +84,62 @@ class LossesController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-            'product_id' => 'required|integer|exists:products,id',
+//            'product_id' => 'required|integer|exists:products,id',
+            'inv_id' => 'required|integer',
             'loss_count' => 'required|integer|min:1',
-            'note' => 'nullable|string'
+            'note' => 'nullable|string',
+            'flag' => 'required|integer',
         ]);
         $userId = auth()->id();
 
-        DB::transaction(function () use ($request,$userId) {
+
+        if($request->flag == 1){
+            $inventory = Inventory::find($request->inv_id);
+            //表示公用的损耗
             Loss::create([
-                'product_id' => $request->product_id,
+                'inventory_id' => $request->inv_id,
+                'product_id' => $inventory->product_id,
                 'loss_count' => $request->loss_count,
                 'note' => $request->note,
                 'creator_id' =>  $userId
             ]);
-            $productId = $request->product_id;
-            $lossCount = $request->loss_count;
-            $inventory = Inventory::where('product_id',$productId)->first();
-            if(count($inventory)){
-                if($inventory->total_count <= $lossCount){
-                    $inventory->total_count = 0;
-                    $inventory->save();
-                }else{
-                    $inventory->decrement('total_count', $lossCount);
-                }
-            }else{
-                Inventory::create([
-                    'product_id' => $productId,
-                    'total_count' => 0
-                ]);
-            }
-        });
+
+        }elseif($request->flag == 2){
+            $privateInventory = PrivateInventory::find($request->inv_id);
+            Loss::create([
+                'private_inventory_id' => $request->inv_id,
+                'product_id' => $privateInventory->product_id,
+                'loss_count' => $request->loss_count,
+                'note' => $request->note,
+                'creator_id' =>  $userId
+            ]);
+        }
+//
+//        DB::transaction(function () use ($request,$userId) {
+//            Loss::create([
+//                'inventory_id' => $request->inv_id,
+//                'product_id' => $request->product_id,
+//                'loss_count' => $request->loss_count,
+//                'note' => $request->note,
+//                'creator_id' =>  $userId
+//            ]);
+//            $productId = $request->product_id;
+//            $lossCount = $request->loss_count;
+//            $inventory = Inventory::where('product_id',$productId)->first();
+//            if(count($inventory)){
+//                if($inventory->total_count <= $lossCount){
+//                    $inventory->total_count = 0;
+//                    $inventory->save();
+//                }else{
+//                    $inventory->decrement('total_count', $lossCount);
+//                }
+//            }else{
+//                Inventory::create([
+//                    'product_id' => $productId,
+//                    'total_count' => 0
+//                ]);
+//            }
+//        });
 
         return $this->success('成功');
     }

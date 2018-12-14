@@ -40,6 +40,7 @@
                         <th>位置</th>
                         <th>单价</th>
                         <th>费用</th>
+                        <th>操作</th>
 
                     </tr>
                     </thead>
@@ -54,6 +55,9 @@
                             </td>
                             <td>{{ $inventory['price'] }}元/{{ $inventory['unit'] }}</td>
                             <td>{{ $inventory['total_money'] }}元</td>
+                            <td>
+                                <button class="btn btn-xs btn-danger add_loss" iid="{{ $inventory['id'] }}"  alt="{{ $inventory['total_count'] }}">添加损耗</button>
+                            </td>
                         </tr>
                     @endforeach
                     </tbody>
@@ -91,12 +95,43 @@
     </div>
 </div>
 
+<!-- 添加损耗model -->
+<div class="modal fade" id="myLossModal" tabindex="-1" role="dialog" aria-labelledby="myLossModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myLossModalLabel">损耗</h4>
+            </div>
+            <div class="modal-body">
+                <input class="form-control" placeholder="请输入损耗的数量" id="loss_count" alt>
+                <br>
+                <textarea placeholder="请填写损耗的备注"
+                          style="resize: vertical"
+                          id="loss_note"
+                          name="body"
+                          rows="3" spellcheck="false"
+                          class="form-control autosize-target text-left"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" alt id="loss_save">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @push('scripts')
     <script>
         $(function () {
             $('#search').bind('click', search);
             $('.location-edit').bind('click', showLocationModel);
             $('#save').bind('click', saveLocationModel);
+
+            //添加损耗
+            $('.add_loss').bind('click', showLossModel);
+            $('#loss_save').bind('click', saveLossModel);
             init();
             //敲回车搜索
             $('#keyword').keyup(function (e) {
@@ -105,6 +140,38 @@
                 }
             });
         });
+
+        function showLossModel() {
+            $('#myLossModal').modal('show');
+            var total_num = $(this).attr('alt');
+            var iid = $(this).attr('iid');
+            $('#loss_count').attr('placeholder','请输入损耗的数量,最大为'+total_num);
+            $('#loss_save').attr('alt',iid);
+
+            {{--console.log('{{ csrf_token() }}');--}}
+        }
+
+
+        function saveLossModel() {
+            //添加损耗
+            var loss_count = $("#loss_count").val();
+            var iid = $(this).attr('alt');
+            var note = $("#loss_note").val();
+            var flag = 1; //表示公用的损耗
+
+            var url = "{{ url('losses') }}";
+            $.post(url,{ loss_count : loss_count,inv_id : iid, note: note,flag: flag},function(result){
+                if(result.code == 0){
+                    window.location.reload();
+                }else{
+                    alert(result.message);
+                }
+            });
+        }
+
+
+
+
 
         function showLocationModel() {
             $('#myLocationModal').modal('show');
