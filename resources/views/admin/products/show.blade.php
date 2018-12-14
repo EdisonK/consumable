@@ -33,6 +33,9 @@
             <div class="col-md-4">
                 <label>所属种类:</label> <span>{{ $warehouse->name }}/{{ $class->name }}/{{ $category->name }}</span>
             </div>
+
+        </div>
+        <div class="row">
             <div class="col-md-4">
                 <label>简介:</label> <span>{{ $product->description }}</span>
             </div>
