@@ -122,7 +122,7 @@ class OrdersController extends Controller
                 if($useId == 1){
                     //公用
                     $inventory = Inventory::where('product_id',$productId)->first();
-                    if(count($inventory)){
+                    if($inventory){
                         $inventory->increment('total_count', $count);
                     }else{
                         Inventory::create([
@@ -136,7 +136,7 @@ class OrdersController extends Controller
                     $privateInventory = PrivateInventory::where('product_id',$productId)
                         ->where('create_id', $creatorId)
                         ->first();
-                    if(count($privateInventory)){
+                    if($privateInventory){
                         $privateInventory->increment('total_count', $count);
                     }else{
                         PrivateInventory::create([
