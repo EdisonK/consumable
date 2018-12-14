@@ -20,4 +20,19 @@ class Loss extends Model
     {
         return $this->belongsTo(Product::class, 'product_id', 'id');
     }
+
+    public function privateInventory()
+    {
+        return $this->belongsTo(PrivateInventory::class, 'private_inventory_id', 'id');
+    }
+
+    public function inventory()
+    {
+        return $this->belongsTo(Inventory::class, 'inventory_id', 'id');
+    }
+
+    public function checker()
+    {
+        return $this->belongsTo(User::class, 'checker_id', 'id');
+    }
 }

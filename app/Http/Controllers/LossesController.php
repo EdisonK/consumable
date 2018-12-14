@@ -24,7 +24,7 @@ class LossesController extends Controller
             'keyword' => 'nullable|string'
         ]);
         $perPage = $request->per_page;
-        $query = Loss::with('product');
+        $query = Loss::with(['product','privateInventory','inventory']);
         if($creator_id = $request->creator_id){
             $query->where('creator_id',$creator_id);
         }
@@ -49,7 +49,11 @@ class LossesController extends Controller
                 'note' => $loss->note,
                 'creator_id' => $loss->creator_id,
                 'creator_name' => $loss->creator ? $loss->creator->name : null,
-                'created_at' => $loss->created_at
+                'created_at' => $loss->created_at,
+                'checked_at' => $loss->checked_at,
+                'checker_id' => $loss->checker_id,
+                'checker_name' => $loss->checker ? $loss->checker->name : null,
+                'use_name' => count($loss->inventory) ? '公用' : '自用',
             ];
         })->toArray()]);
 

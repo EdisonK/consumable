@@ -13,7 +13,7 @@
         <div class="row">
             <div class="col-lg-8 col-md-8">
                 <!-- Single button -->
-                <button class="btn btn-danger" id="add_loss">添加损耗</button>
+                {{--<button class="btn btn-danger" id="add_loss">添加损耗</button>--}}
             </div><!-- /.col-lg-6 -->
             <div class="col-lg-4 col-md-4">
                 <div  class="col-lg-4 col-md-4">
@@ -41,10 +41,13 @@
                     <tr>
                         <th>产品名</th>
                         <th>损耗数量</th>
+                        <th>仓库</th>
                         <th>单价</th>
                         <th>费用</th>
                         <th>提交人</th>
+                        <th>审核人</th>
                         <th>备注</th>
+                        <th>操作</th>
                     </tr>
                     </thead>
                     <tbody data-total="{{ $losses['last_page'] }}" id="pages" data-current="{{ $losses['current_page'] }}">
@@ -52,6 +55,7 @@
                         <tr>
                             <td><a href="{{ url('products',[$loss['product_id']]) }}">{{ $loss['product_name'] }}</a></td>
                             <td>{{ $loss['loss_count'] }}</td>
+                            <td>{{ $loss['use_name'] }}</td>
                             <td>{{ $loss['price'] }}元/{{ $loss['unit'] }}</td>
                             <td>{{ $loss['total_money'] }}元</td>
                             <td>
@@ -60,7 +64,16 @@
                                     {{ $loss['created_at'] }}
                                 </p>
                             </td>
+                            <td>
+                                {{ $loss['checker_name'] }}
+                                <p>
+                                    {{ $loss['checked_at'] }}
+                                </p>
+                            </td>
                             <td>{{ $loss['note'] }}</td>
+                            <td>
+                                <button class="btn btn-danger btn-xs">审核</button>
+                            </td>
 
                         </tr>
                     @endforeach
