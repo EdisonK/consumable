@@ -47,7 +47,7 @@
                     <tbody data-total="{{ $inventories['last_page'] }}" id="pages" data-current="{{ $inventories['current_page'] }}">
                     @foreach($inventories['data'] as $inventory)
                         <tr>
-                            <td><a href="/products/{{ $inventory['product_id'] }}">{{ $inventory['product_name'] }}</a></td>
+                            <td><a href="{{ url('products') }}/{{ $inventory['product_id'] }}">{{ $inventory['product_name'] }}</a></td>
                             <td>{{ $inventory['total_count'] }}</td>
                             <td>
                                 {{ $inventory['location'] }}
