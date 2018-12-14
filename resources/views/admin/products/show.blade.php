@@ -35,7 +35,7 @@
             </div>
 
         </div>
-        <div class="row">
+        <div class="row" style="font-size: medium; line-height: 2em">
             <div class="col-md-4">
                 <label>简介:</label> <span>{{ $product->description }}</span>
             </div>
