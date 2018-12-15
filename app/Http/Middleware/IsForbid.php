@@ -17,7 +17,7 @@ class IsForbid
     {
         $user = auth()->user();
         if($user->isForbid()){
-            return response('该用户已被禁止登陆,请联系管理员开启账户，电话：15895348728（朱先生）');
+            return response('该用户已被禁止登陆,请联系管理员开启账户，电话：15895348728（朱先生）,微信：zhd1187511235');
         }
         return $next($request);
     }
