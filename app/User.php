@@ -96,4 +96,13 @@ class User extends Authenticatable
         });
         return $bool;
     }
+
+    public function isForbid()
+    {
+        if($this->on == 0){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }

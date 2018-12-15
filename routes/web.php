@@ -34,7 +34,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 //我自己的写法
 
 
-Route::group(['middleware' => ['auth']], function () {
+Route::group(['middleware' => ['auth','isForbid']], function () {
 
     //后面要加权限必须登陆的才行
     Route::post('orders','OrdersController@store');
