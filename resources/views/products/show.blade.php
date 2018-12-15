@@ -106,7 +106,7 @@
             var url = "{{ url('orders') }}";
              $.post(url,{ count : count, product_id : product_id,use_id: use_id, note: note},function(result){
                  if(result.code == 0){
-                     window.location.reload();
+                     window.location.href = '{{ url('products') }}';
                  }else{
                      alert(result.message);
                  }
