@@ -75,21 +75,25 @@ class UsersController extends Controller
     public function setRolesForUser(Request $request,User $user)
     {
         $this->validate($request,[
-            'roles' => 'required|array',
-            'roles.*' => 'required|string|exists:roles,name'
+//            'roles' => 'required|array',
+//            'roles.*' => 'required|string|exists:roles,name'
         ]);
         $roles = $request->roles;
 
-        DB::transaction(function () use($roles,$user) {
+        if(count($roles) == 0){
             $user->roles()->detach();
-            foreach ($roles as $key => $role){
-                $row = Role::where('name',$role)->first();
-                if(is_null($row)){
-                    continue;
+        }else{
+            DB::transaction(function () use($roles,$user) {
+                $user->roles()->detach();
+                foreach ($roles as $key => $role){
+                    $row = Role::where('name',$role)->first();
+                    if(is_null($row)){
+                        continue;
+                    }
+                    $user->roles()->attach($row);
                 }
-                $user->roles()->attach($row);
-            }
-        });
+            });
+        }
 
         return $this->success('设置成功');
     }

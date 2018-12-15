@@ -14,7 +14,9 @@
             <div class="col-lg-8 col-md-8">
                 <div class="col-lg-8">
                     <!-- Single button -->
-                    <button class="btn-primary btn" id="confirm" value="">接收</button>
+                    @if( auth()->user()->isGroupLeader())
+                        <button class="btn-primary btn" id="confirm" value="">接收</button>
+                    @endif
                 </div><!-- /.col-lg-6 -->
                 <div class="col-lg-4 pull-right c-datepicker-date-editor J-datepicker-range-day" style="margin-right: -30px;margin-top: 2px;">
                     <i class="c-datepicker-range__icon kxiconfont icon-clock"></i>

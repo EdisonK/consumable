@@ -97,6 +97,14 @@ class User extends Authenticatable
         return $bool;
     }
 
+    public function isGroupLeader()
+    {
+        $bool = $this->roles->contains(function ($value, $key) {
+            return ($value->name == '管理员') || ($value->name == '组长');
+        });
+        return $bool;
+    }
+
     public function isForbid()
     {
         if($this->on == 0){
