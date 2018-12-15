@@ -25,11 +25,11 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 //注意路由的写法，使用resource关键字，另外，路由使用复数，
-Route::resource('companies','CompaniesController');
-Route::resource('projects','ProjectsController');
-Route::resource('roles','RolesController');
-Route::resource('task','TasksController');
-Route::resource('users','UsersController');
+//Route::resource('companies','CompaniesController');
+//Route::resource('projects','ProjectsController');
+//Route::resource('roles','RolesController');
+//Route::resource('task','TasksController');
+//Route::resource('users','UsersController');
 
 //我自己的写法
 
@@ -60,7 +60,8 @@ Route::group(['middleware' => ['auth']], function () {
 
 
 
-    Route::prefix('admin')->group(function () {
+//    Route::prefix('admin')->group(function () {
+    Route::group(['prefix' => 'admin', 'middleware' => 'isAdmin'],function () {
         Route::namespace('Admin')->group(function () {
 //            Route::get('warehouses','WarehousesController@index');
             Route::get('products','ProductsController@index');
