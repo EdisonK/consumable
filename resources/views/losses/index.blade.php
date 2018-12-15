@@ -73,7 +73,13 @@
                             <td>{{ $loss['note'] }}</td>
                             <td>
                                 @if( auth()->user()->isGroupLeader())
-                                <button class="btn btn-danger btn-xs checker" alt="{{ $loss['id'] }}">审核</button>
+                                    @if($loss['checked_at'])
+
+                                     已审核
+                                    @else
+
+                                      <button class="btn btn-danger btn-xs checker" alt="{{ $loss['id'] }}">审核</button>
+                                    @endif
                                 @else
                                     无权限
                                 @endif
